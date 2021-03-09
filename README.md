@@ -1,2 +1,2 @@
 # devrupt-hospitality
-Apaleo integration for the devrupt hospitality hackathon
+Wirelane <-> Apaleo integration for the [devrupt hospitality hackathon](https://www.devrupt-hospitality.com/).
