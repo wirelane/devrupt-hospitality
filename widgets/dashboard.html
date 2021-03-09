@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Wirelane Apaleo</title>
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap" rel="stylesheet">
+    <style>
+      body {
+        font-family: Roboto, Helvetica, sans-serif;
+        /*background-color: rgb(245, 245, 245);*/
+      }
+
+      ul {
+        list-style: none;
+      }
+
+      li::before {
+        content: "\2022";
+        font-weight: bold;
+        font-size: 1em;
+        display: inline-block;
+        width: 1em;
+        margin-left: -1em;
+      }
+
+      li.red::before {
+        color: red;
+      }
+
+      li.yellow::before {
+        color: yellow;
+      }
+
+      li.green::before {
+        color: green;
+      }
+    </style>
+  </head>
+  <body>
+    <p>München</p>
+    <ul>
+      <li class="green">Tiefgarage 1</li>
+      <li class="red">Tiefgarage 2</li>
+      <li class="green">Empfang 1</li>
+      <li class="yellow">Empfang 2</li>
+    </ul>
+    <p>Berlin</p>
+    <ul>
+      <li class="green">Empfang 1</li>
+      <li class="green">Empfang 2</li>
+      <li class="red">Empfang 2</li>
+    </ul>
+  </body>
+</html>
