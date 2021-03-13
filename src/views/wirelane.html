@@ -79,7 +79,7 @@
     <script>
       mapkit.init({
         authorizationCallback: function(done) {
-          fetch("/services/jwt")
+          fetch("/services/mapkit/jwt")
             .then(response => response.json())
             .then(result => {
               done(result.token)
