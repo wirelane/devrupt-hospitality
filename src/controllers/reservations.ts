@@ -13,3 +13,12 @@ export const getReservationById = async (req: Request, res: Response) => {
 
   res.json(reservation);
 };
+
+export const getReservationByUnitName = async (req: Request, res: Response) => {
+  const service = new ReservationService();
+  const reservation = await service.getReservationByUnitName(req.params.name);
+
+  console.log('**** Reservation ****\n', reservation);
+
+  res.json(reservation);
+};
