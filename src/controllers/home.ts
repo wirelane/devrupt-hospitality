@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-const home = require('../views/home.html');
+const home = require('../views/wirelane.html');
 
 /**
  * Home page.
