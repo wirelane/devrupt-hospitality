@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Home</title>
+  </head>
+  <body>
+    <label for="reservationId">Reservation ID:</label
+    ><input id="reservationId" type="text" value="NXFNWXEK-1" />
+    <button id="getReservation">Get reservation</button>
+  </body>
+</html>
+
+<script>
+  window.onload = () => {
+    const button = document.getElementById('getReservation');
+    button.onclick = () => navigateToReservationDetails();
+  };
+
+  function navigateToReservationDetails() {
+    const reservationId = document.getElementById('reservationId').value;
+    window.location.href = `${window.location.href}reservations/${reservationId}`;
+  }
+</script>
