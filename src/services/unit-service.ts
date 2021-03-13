@@ -30,15 +30,33 @@ export class UnitService {
     try {
       const result = await this.getUnits();
 
-      const matchingUnit = result.units.find((unit: UnitItemModel) => {
-        return unit.name === name;
+      const unitDirectMatch = result.units.find((unit: UnitItemModel) => {
+        return unit.name.toLowerCase() === name.toLowerCase();
       });
 
-      console.log('getUnitByName', matchingUnit);
+      if (unitDirectMatch) {
+        console.log('getUnitByName - direct match', unitDirectMatch);
 
-      return matchingUnit;
+        return unitDirectMatch;
+      }
+
+      const unitBestMatch = result.units.find((unit: UnitItemModel) => {
+        return UnitService.normalizeUnitName(unit.name) === UnitService.normalizeUnitName(name);
+      });
+
+      if (unitBestMatch) {
+        console.log('getUnitByName - best match', unitBestMatch);
+
+        return unitBestMatch;
+      }
+
+      return undefined;
     } catch (error) {
       console.log('getUnitByName', error);
     }
+  }
+
+  public static normalizeUnitName(name: string): string {
+    return name.toLowerCase().replace(/[^a-z0-9]+/gi, '');
   }
 }

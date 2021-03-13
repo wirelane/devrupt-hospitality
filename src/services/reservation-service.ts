@@ -2,6 +2,7 @@ import {
   ApaleoBookingAPI,
   ReservationModel,
   ReservationItemModel,
+  ReservationListModel,
 } from '../../clients/apaleo/booking/client';
 import { ApaleoOauth } from './apaleo-oauth';
 import config from '../config';
@@ -25,7 +26,7 @@ export class ReservationService {
     }
   }
 
-  public async getReservationByUnitName(unitName: string): Promise<ReservationItemModel> {
+  public async getReservationsByUnitName(unitName: string): Promise<ReservationListModel> {
     try {
       const unitService = new UnitService();
       const unit = await unitService.getUnitByName(unitName);
@@ -35,11 +36,50 @@ export class ReservationService {
         status: ['Confirmed', 'InHouse']
       });
 
-      console.log('getReservationByUnitId', result._response.parsedBody);
+      console.log('getReservationsByUnitName', result._response.parsedBody);
 
-      return result._response.parsedBody.reservations.shift();
+      return result._response.parsedBody;
     } catch (error) {
-      console.log('getReservationByUnitId', error);
+      console.log('getReservationsByUnitName', error);
+    }
+  }
+
+  public async getReservationByUnitName(unitName: string): Promise<ReservationItemModel> {
+    try {
+      const reservations = await this.getReservationsByUnitName(unitName);
+
+      // check if there is a InHouse reservation
+      const reservationInHouse = reservations.reservations.find((reservation: ReservationItemModel) => {
+        return reservation.status === 'InHouse';
+      });
+
+      if (reservationInHouse) {
+        console.log('getReservationByUnitName - InHouse', reservationInHouse);
+
+        return reservationInHouse;
+      }
+
+      const today = new Date();
+
+      // check if there is a Confirmed reservation starting today
+      const reservationConfirmedStartingToday = reservations.reservations.find((reservation: ReservationItemModel) => {
+        return (
+          reservation.status === 'Confirmed'
+          /*&& reservation.arrival.getFullYear() === today.getFullYear()
+          && reservation.arrival.getMonth() === today.getMonth()
+          && reservation.arrival.getDay() === today.getDay()*/
+        );
+      });
+
+      if (reservationConfirmedStartingToday) {
+        console.log('getReservationByUnitName - Confirmed today', reservationConfirmedStartingToday);
+
+        return reservationConfirmedStartingToday;
+      }
+
+      return undefined;
+    } catch (error) {
+      console.log('getReservationByUnitName', error);
     }
   }
 }
