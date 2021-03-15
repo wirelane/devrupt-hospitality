@@ -1,11 +1,21 @@
 import { Request, Response } from 'express';
-const viewWirelane = require('../views/wirelane.html');
-const viewMaseven = require('../views/maseven.html');
 
-export const indexWirelane = (req: Request, res: Response) => {
-  res.send(viewWirelane.default)
+interface Hotel {
+  title: string,
+  identifier: string
+}
+const hotelConfiguration: { [key: string]: Hotel} = {
+  "wirelane": {
+    title: 'Wirelane',
+    identifier: 'wirelane'
+  },
+  "maseven": {
+    title: 'MASEVEN',
+    identifier: 'maseven'
+  }
 };
 
-export const indexMaseven = (req: Request, res: Response) => {
-  res.send(viewMaseven.default)
+// TODO: select Hotel configuration based on EVSEID.
+export const showHotel = (req: Request, res: Response) => {
+  res.render('template.pug', hotelConfiguration[req.params.id])
 };
