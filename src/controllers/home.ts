@@ -1,10 +1,11 @@
 import { Request, Response } from 'express';
-const home = require('../views/wirelane.html');
+const viewWirelane = require('../views/wirelane.html');
+const viewMaseven = require('../views/maseven.html');
 
-/**
- * Home page.
- * @route GET /
- */
-export const index = (req: Request, res: Response) => {
-  res.send(home.default)
+export const indexWirelane = (req: Request, res: Response) => {
+  res.send(viewWirelane.default)
+};
+
+export const indexMaseven = (req: Request, res: Response) => {
+  res.send(viewMaseven.default)
 };

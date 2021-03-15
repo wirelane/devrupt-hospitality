@@ -10,3 +10,9 @@ services:
     ports:
       - 3000:3000
     env_file: .env.example
+    secrets:
+      - mapkit_cert
+
+secrets:
+  mapkit_cert:
+    file: .secrets/mapkit_cert.p8

@@ -5,4 +5,7 @@ export default {
     APALEO_BASE_URL: process.env.APALEO_BASE_URL,
     APALEO_PROPERTY_ID: process.env.APALEO_PROPERTY_ID,
     MAPKIT_CERT_FILE: process.env.MAPKIT_CERT_FILE,
+    MAPKIT_KEY_ID: process.env.MAPKIT_KEY_ID,
+    MAPKIT_TEAM_ID: process.env.MAPKIT_TEAM_ID,
+    MAPKIT_ORIGIN: process.env.MAPKIT_ORIGIN,
 };

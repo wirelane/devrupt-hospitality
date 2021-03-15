@@ -7,14 +7,14 @@ export class MapKit {
     const header = {
       "alg": "ES256",
       "typ": "JWT",
-      "kid": "HUN98Z8M25",
+      "kid": config.MAPKIT_KEY_ID,
     };
   
     const payload = {
-      "iss": "6T4DA45VJE",
+      "iss": config.MAPKIT_TEAM_ID,
       "iat": Date.now() / 1000,
       "exp": (Date.now() / 1000) + 15778800,
-      "origin": "https://192.168.178.54:8888",
+      "origin": config.MAPKIT_ORIGIN,
     };
 
     if (!fs.existsSync(config.MAPKIT_CERT_FILE)) {
