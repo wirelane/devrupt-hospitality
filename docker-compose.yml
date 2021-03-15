@@ -1,0 +1,18 @@
+version: '3.1'
+
+services:
+  devrupt-hospitality:
+    build: .
+    image: devrupt-hospitality
+    container_name: devrupt-hospitality
+    volumes:
+      - .:/app
+    ports:
+      - 3000:3000
+    env_file: .env.example
+    secrets:
+      - mapkit_cert
+
+secrets:
+  mapkit_cert:
+    file: .secrets/mapkit_cert.p8
