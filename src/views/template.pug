@@ -21,24 +21,36 @@ html
         h1 Charge. Pay. Done.
           span.wirelane by Wirelane
 
-        p Easily charge your car for <strong>€0.38/kWh without starting fee</strong>. The charges will occur on your hotel invoice upon checkout.
+        p
+          | Easily charge your car for
+          |
+          strong €0.38/kWh without starting fee
+          | . The charges will occur on your hotel invoice upon checkout.
         br
 
-        .alert.alert-danger(role="alert") The combination of room number and date of birth is invalid. If you need assistance or feel this is a mistake, please <a class="alert-link" href="tel:0123456789">call 0123456789</a>.
+        .alert.alert-danger(role="alert")
+          | The entered reservation number could not be found.
+          | If you need assistance or feel this is a mistake, please
+          |
+          a.alert-link(href="tel:" + phone) call #{phone}
+          | .
 
         form
           .mb-3
-            label.form-label(for="inputRoomNumber") Room Number
-            input#inputRoomNumber.form-control(type="number" pattern="[0-9]*" aria-describedby="roomNumberHelp")
-            #roomNumberHelp.form-text The number of the room you're residing in.
-
-          .mb-3
-            label.form-label(for="inputDoB") Date of Birth
-            input#inputDoB.form-control(type="date" aria-describedby="dobHelp")
-            #dobHelp.form-text This information is not stored but used to verify your authenticity.
+            label.form-label(for="inputBookingNumber") Booking Number
+            input#inputBookingNumber.form-control(aria-describedby="bookingNumberHelp")
+            #bookingNumberHelp.form-text Your booking number or reservation number.
 
           .mb-3.form-check
             input#tocCheck.form-check-input(type="checkbox")
-            label.form-check-label(for="tocCheck") I accept the <a href="#">Terms and Conditions</a> and the <a href="#">Data Privacy Agreement</a>.
+            label.form-check-label(for="tocCheck")
+              | I accept the
+              |
+              a(href=termsAndConditionsUrl target="_blank") Terms and Conditions
+              |
+              | and the
+              |
+              a(href=dataPrivacyUrl target="_blank") Data Privacy Agreement
+              | .
 
           button.btn.btn-primary(type="submit") Start Charging
