@@ -14,7 +14,8 @@ app.set('views', 'src/views');
 app.set('view engine', 'pug');
 
 // Routes
-app.get('/hotel/:id', homeController.showHotel);
+app.get('/', homeController.indexEvseId);
+app.get('/evseid/:evseId', homeController.showEvseId);
 app.get('/reservations/:id', reservationsController.getReservationById);
 app.get('/reservation/unit/:name', reservationsController.getReservationByUnitName);
 app.get('/services/mapkit/jwt', servicesController.getJwt);
