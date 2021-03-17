@@ -1,4 +1,10 @@
+@font-face {
+  font-family: KarbonLight;
+  src: url(../fonts/KarbonWeb-Light.woff2);
+}
+
 body {
+  font-family: KarbonLight;
   background-color: black;
   color: white;
 }
