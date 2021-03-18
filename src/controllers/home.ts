@@ -98,7 +98,7 @@ export const startCharging = async (req: Request, res: Response) => {
   console.log('**** Reservation ****\n', reservation);
 
   if (!reservation) {
-    res.json({
+    return res.json({
       error: `Reservation ${bookingNumber} not found.`,
     });
   }

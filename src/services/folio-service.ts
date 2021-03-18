@@ -12,7 +12,7 @@ import {
   Charge,
   Allowance
 } from '../controllers/home'; // ouch, import from controller :(
-import { ApaleoOauth } from './apaleo-oauth';
+import { ApaleoOauth } from '../../clients/apaleo/apaleo-oauth';
 import config from '../config';
 
 export class FolioService {

@@ -140,7 +140,7 @@ export class WirelaneAPI extends WirelaneAPIContext {
 const serializer = new coreHttp.Serializer(Mappers, /* isXml */ false);
 
 const organizationCreateChargingPointOperationSpec: coreHttp.OperationSpec = {
-  path: "/organizations/id/{organizationId}/points",
+  path: "/apis/emc/organizations/id/{organizationId}/points",
   httpMethod: "POST",
   responses: {
     200: {
@@ -166,7 +166,7 @@ const organizationCreateChargingPointOperationSpec: coreHttp.OperationSpec = {
   serializer
 };
 const organizationFindChargingPointsOperationSpec: coreHttp.OperationSpec = {
-  path: "/organizations/id/{organizationId}/points",
+  path: "/apis/emc/organizations/id/{organizationId}/points",
   httpMethod: "GET",
   responses: {
     200: {
@@ -239,7 +239,8 @@ const organizationFindChargingPointsOperationSpec: coreHttp.OperationSpec = {
   serializer
 };
 const organizationFindChargingPointOperationSpec: coreHttp.OperationSpec = {
-  path: "/organizations/id/{organizationId}/points/{pointTypeId}/{pointId}",
+  path:
+    "/apis/emc/organizations/id/{organizationId}/points/{pointTypeId}/{pointId}",
   httpMethod: "GET",
   responses: {
     200: {
@@ -283,7 +284,8 @@ const organizationFindChargingPointOperationSpec: coreHttp.OperationSpec = {
   serializer
 };
 const organizationUpdateChargingPointOperationSpec: coreHttp.OperationSpec = {
-  path: "/organizations/id/{organizationId}/points/{pointTypeId}/{pointId}",
+  path:
+    "/apis/emc/organizations/id/{organizationId}/points/{pointTypeId}/{pointId}",
   httpMethod: "PUT",
   responses: {
     200: {

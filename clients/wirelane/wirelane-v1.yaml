@@ -88,7 +88,7 @@ securityDefinitions:
     scopes:
       account: Account function
 paths:
-  /organizations/id/{organizationId}/points:
+  /apis/emc/organizations/id/{organizationId}/points:
     post:
       description: Create a charging point for the provider of the organization.
       tags:
@@ -189,7 +189,7 @@ paths:
           $ref: '#/responses/503'
         default:
           $ref: '#/responses/default'
-  /organizations/id/{organizationId}/points/{pointTypeId}/{pointId}:
+  /apis/emc/organizations/id/{organizationId}/points/{pointTypeId}/{pointId}:
     get:
       tags:
         - Organizations Charge Points

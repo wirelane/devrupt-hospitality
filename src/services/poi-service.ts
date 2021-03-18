@@ -16,7 +16,6 @@ export class PoiService {
       const result = await this.apiClient.organizationFindChargingPoint(tenant, 'evseid', evseid);
 
       console.log('response', result._response);
-
       console.log('getPoiInformation', result._response.parsedBody);
 
       return result._response.parsedBody;

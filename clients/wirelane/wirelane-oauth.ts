@@ -29,8 +29,6 @@ export class WirelaneOauth implements TokenCredential {
       }
     );
 
-    console.log('Wirelane Access Token:', response.data.access_token);
-
     return {
       token: response.data.access_token,
       expiresOnTimestamp: now.getTime() + response.data.expires_in * 1000,
