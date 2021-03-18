@@ -40,6 +40,13 @@ const wirelane: Hotel = {
   dataPrivacyUrl: 'https://www.wirelane.com/datenschutzerklaerung/'
 }
 
+const wirelane_staging: Hotel = {
+  title: 'Wirelane (Staging)',
+  identifier: 'wirelane',
+  termsAndConditionsUrl: 'https://www.wirelane.com/de/nutzungsbedingungen/',
+  dataPrivacyUrl: 'https://www.wirelane.com/datenschutzerklaerung/'
+}
+
 const maseven: Hotel = {
   title: 'MASEVEN',
   identifier: 'maseven',
@@ -63,9 +70,18 @@ const wirelane1: ChargingPoint = {
   hotel: wirelane
 }
 
+const wirelane2: ChargingPoint = {
+  evseId: 'DELNDE000210',
+  price: 0.38,
+  latitude: 48.145074,
+  longitude: 11.582432,
+  hotel: wirelane_staging
+}
+
 const chargingPoints: { [key: string]: ChargingPoint } = {
-  'DE*WLN*E0004457': maseven1,
-  'DE*WLN*E0123456': wirelane1
+  'DE*WLN*E0004457': maseven1, // production
+  'DE*WLN*E0123456': wirelane1, // production
+  'DELNDE000210': wirelane2, // staging
 }
 
 export const indexEvseId = (req: Request, res: Response) => {
@@ -81,8 +97,17 @@ export const showEvseId = async (req: Request, res: Response) => {
   const poiService = new PoiService();
   const poiInformation = await poiService.getPoiInformation('DEWLN', evseId);
 
+  if (!poiInformation) {
+    return res.json({
+      error: `ChargePoint ${evseId} not found.`,
+    });
+  }
+
   res.render('template.pug', {
-    chargingPoint: chargingPoint,
+    tenant: chargingPoint.hotel,
+    tariff: {
+      price: chargingPoint.price,
+    },
     poi: poiInformation,
   });
 };
