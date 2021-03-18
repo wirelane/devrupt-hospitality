@@ -1,11 +1,11 @@
 import { Request, Response } from 'express';
+import { PoiService } from '../services/poi-service';
 
 interface Hotel {
   title: string,
   identifier: string,
   termsAndConditionsUrl: string,
   dataPrivacyUrl: string,
-  phone: string,
   price: string
 }
 
@@ -15,7 +15,6 @@ const hotelConfiguration: { [key: string]: Hotel} = {
     identifier: 'wirelane',
     termsAndConditionsUrl: 'https://www.wirelane.com/de/nutzungsbedingungen/',
     dataPrivacyUrl: 'https://www.wirelane.com/datenschutzerklaerung/',
-    phone: '+49 800 399 499 599',
     price: '0.38'
   },
   'maseven': {
@@ -23,7 +22,6 @@ const hotelConfiguration: { [key: string]: Hotel} = {
     identifier: 'maseven',
     termsAndConditionsUrl: 'https://www.maseven.de/wp-content/uploads/2020/10/terms_of_conditions-1.pdf',
     dataPrivacyUrl: 'https://www.maseven.de/en/privacy-policy/',
-    phone: '+49 89 998 29 44 0',
     price: '0.43'
   }
 };
@@ -37,14 +35,25 @@ export const indexEvseId = (req: Request, res: Response) => {
   res.render('index.pug', { listing: evseToHotelMapping });
 };
 
-export const showEvseId = (req: Request, res: Response) => {
-  let evseId = req.params.evseId;
+export const showEvseId = async (req: Request, res: Response) => {
+  const evseId = req.params.evseId;
   console.log('Retrieve details for EVSEID ' + evseId);
 
+  const poiService = new PoiService();
+  const poiInformation = await poiService.getPoiInformation('DEWLN', evseId);
+
   let hotelIdentifier = evseToHotelMapping[evseId];
+
+  if (!hotelIdentifier) {
+    hotelIdentifier = 'wirelane';
+  }
+
   console.log('Found hotel ' + hotelIdentifier);
 
-  let configuration = hotelConfiguration[hotelIdentifier];
+  const configuration = hotelConfiguration[hotelIdentifier];
 
-  res.render('template.pug', configuration);
+  res.render('template.pug', {
+    hotel: configuration,
+    poi: poiInformation,
+  });
 };

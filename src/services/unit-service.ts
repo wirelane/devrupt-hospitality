@@ -3,7 +3,7 @@ import {
   UnitItemModel,
   UnitListModel,
 } from '../../clients/apaleo/inventory/client';
-import { ApaleoOauth } from './apaleo-oauth';
+import { ApaleoOauth } from '../../clients/apaleo/apaleo-oauth';
 import config from '../config';
 
 export class UnitService {

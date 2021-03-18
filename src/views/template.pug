@@ -3,17 +3,17 @@ html
     meta(name="viewport" content="width=device-width, initial-scale=1")
     link(href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous")
     link(href="/styles/base.css" rel="stylesheet")
-    link(href="/styles/" + identifier + ".css" rel="stylesheet")
+    link(href="/styles/" + hotel.identifier + ".css" rel="stylesheet")
     script(src="https://cdn.apple-mapkit.com/mk/5.x.x/mapkit.js")
     script(src="/js/script.js")
 
-    title= title
+    title= hotel.title
     body
       nav.navbar
         .container
           a.navbar-brand(href="#")
-            img.d-inline-block-align-top(src="/images/" + identifier + ".png" alt="" width="32" height="32")
-            = title
+            img.d-inline-block-align-top(src="/images/" + hotel.identifier + ".png" alt="" width="32" height="32")
+            = hotel.title
 
       #map
 
@@ -26,16 +26,17 @@ html
         p
           | Easily charge your car for
           |
-          strong €#{price}/kWh without starting fee
+          strong €#{hotel.price}/kWh without starting fee
           | . The charges will occur on your hotel invoice upon checkout.
         br
 
-        .alert.alert-danger(role="alert")
-          | The entered reservation number could not be found.
-          | If you need assistance or feel this is a mistake, please
-          |
-          a.alert-link(href="tel:" + phone) call #{phone}
-          | .
+        if poi
+          .alert.alert-danger(role="alert")
+            | The entered reservation number could not be found.
+            | If you need assistance or feel this is a mistake, please
+            |
+            a.alert-link(href="tel:" + poi.serviceHotline) call #{poi.serviceHotline}
+            | .
 
         form
           .mb-3
@@ -48,11 +49,11 @@ html
             label.form-check-label(for="tocCheck")
               | I accept the
               |
-              a(href=termsAndConditionsUrl target="_blank") Terms and Conditions
+              a(href=hotel.termsAndConditionsUrl target="_blank") Terms and Conditions
               |
               | and the
               |
-              a(href=dataPrivacyUrl target="_blank") Data Privacy Agreement
+              a(href=hotel.dataPrivacyUrl target="_blank") Data Privacy Agreement
               | .
 
           button.btn.btn-primary(type="submit") Start Charging

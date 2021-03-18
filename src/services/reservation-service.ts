@@ -4,7 +4,7 @@ import {
   ReservationItemModel,
   ReservationListModel,
 } from '../../clients/apaleo/booking/client';
-import { ApaleoOauth } from './apaleo-oauth';
+import { ApaleoOauth } from '../../clients/apaleo/apaleo-oauth';
 import config from '../config';
 import { UnitService } from './unit-service';
 
