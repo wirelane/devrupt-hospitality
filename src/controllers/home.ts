@@ -1,5 +1,6 @@
 import { Request, Response } from 'express';
 import { ReservationService } from '../services/reservation-service';
+import { FolioService } from '../services/folio-service';
 
 interface Hotel {
   title: string,
@@ -60,7 +61,7 @@ export const indexEvseId = (req: Request, res: Response) => {
 
 export const showEvseId = (req: Request, res: Response) => {
   const evseId = req.params.evseId;
-  console.log('Retrieve details for EVSEID ' + evseId);
+  console.log('Retrieve details for EVSEID', evseId);
 
   const chargingPoint = chargingPoints[evseId];
 
@@ -74,12 +75,25 @@ export const startCharging = async (req: Request, res: Response) => {
 
   // 1. Find reservation
   const reservationService = new ReservationService();
-  const reservation = await reservationService.getReservationsByBookingNumber(bookingNumber);
-  console.log('**** Reservation ****\n', reservation);
+  const reservations = await reservationService.getReservationsByBookingNumber(bookingNumber);
+  const reservation = reservations.reservations[0];
+  console.log('**** Reservations ****\n', reservation);
 
   // 2. Start session
+  // TODO
 
   // 3. Put charge on folio (later in different action)
   const folioService = new FolioService();
+  const folios = await folioService.getFoliosByReservationIds([reservation.id]);
+  const folio = folios.folios[0];
+  console.log('**** Folios ****\n', folio);
+
+  const charge = await folioService.postChargeToFolio(folio.id, 'Wirelane Charging Session EVSE ID Reservation');
+  console.log('**** Charge ****\n', charge);
+
+  // 4. Put allowance on folio (later in different action)
+  const allowance = await folioService.postAllowanceToFolioAndCharge(folio.id, charge.id, 'Final amount for charging session: 12.40', 50 - 12.40);
+  console.log('**** Allowance ****\n', allowance);
+
   res.json(reservation);
 };
