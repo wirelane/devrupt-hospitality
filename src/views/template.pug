@@ -44,7 +44,7 @@ html
           a.alert-link(href="tel:" + chargingPoint.hotel.phone) call #{chargingPoint.hotel.phone}
           | .
 
-        form(action="/evseId/" + chargingPoint.evseId method="POST")
+        form(action="/evseId/" + chargingPoint.evseId + "/start" method="POST")
           .mb-3
             label.form-label(for="inputBookingNumber") Booking Number
             input#inputBookingNumber.form-control(name="bookingNumber" aria-describedby="bookingNumberHelp")
