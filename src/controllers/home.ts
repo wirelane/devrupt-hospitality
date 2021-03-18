@@ -18,6 +18,21 @@ interface ChargingPoint {
   hotel: Hotel
 }
 
+export interface Charge {
+  folioId: string,
+  amount: number,
+  currency: string,
+  subject: string
+}
+
+export interface Allowance {
+  chargeId: string,
+  folioId: string,
+  amount: number,
+  currency: string,
+  subject: string
+}
+
 const wirelane: Hotel = {
   title: 'Wirelane',
   identifier: 'wirelane',
@@ -97,12 +112,30 @@ export const startCharging = async (req: Request, res: Response) => {
   const folio = folios.folios[0];
   console.log('**** Folios ****\n', folio);
 
-  const charge = await folioService.postChargeToFolio(folio.id, 'Wirelane Charging Session EVSE ID Reservation');
+  const newCharge = {
+    folioId: folio.id,
+    amount: 50,
+    currency: 'EUR',
+    subject: 'Wirelane Charging Session 123456 @ ' + evseId + ' Reservation'
+  };
+  const charge = await folioService.postChargeToFolio(newCharge);
   console.log('**** Charge ****\n', charge);
 
   // 4. Put allowance on folio (later in different action)
-  const allowance = await folioService.postAllowanceToFolioAndCharge(folio.id, charge.id, 'Final amount for charging session: 12.40', 50 - 12.40);
+  const newAllowance = {
+    chargeId: charge.id,
+    folioId: folio.id,
+    amount: 50 - 12.80,
+    currency: 'EUR',
+    subject: 'Wirelane Charging Session 123456 @ ' + evseId + ' Final Amount'
+  };
+  const allowance = await folioService.postAllowanceToFolioAndCharge(newAllowance);
   console.log('**** Allowance ****\n', allowance);
 
   res.json(reservation);
+};
+
+export const stopCharging = async (req: Request, res: Response) => {
+  
+  res.send('ok');
 };

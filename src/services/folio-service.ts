@@ -1,12 +1,18 @@
 import {
   ApaleoFinanceAPI,
+  FolioModel,
   FolioListModel,
+  ChargeModel,
   CreateChargeModel,
   AddedChargeModel,
   CreateAllowanceForChargeModel,
   CreatedSubResourceIdModel
 } from '../../clients/apaleo/finance/client';
-import { ApaleoOauth } from '../../clients/apaleo/apaleo-oauth';
+import {
+  Charge,
+  Allowance
+} from '../controllers/home'; // ouch, import from controller :(
+import { ApaleoOauth } from './apaleo-oauth';
 import config from '../config';
 
 export class FolioService {
@@ -29,21 +35,21 @@ export class FolioService {
     }
   }
 
-  public async postChargeToFolio(folioId: string, charge: string): Promise<AddedChargeModel> { // charge -> Charge
+  public async postChargeToFolio(charge: Charge): Promise<AddedChargeModel> { // charge -> Charge
     const createChargeModel: CreateChargeModel = {
       serviceType: 'Other',
       vatType: 'Normal',
-      name: charge,
+      name: charge.subject,
       amount: {
-        amount: 50,
-        currency: 'EUR'
+        amount: charge.amount,
+        currency: charge.currency
       },
       //receipt?: string;
       quantity: 1
     }
 
     try {
-      const result = await this.apiClient.financeFolioActionsByFolioIdChargesPost(folioId, createChargeModel);
+      const result = await this.apiClient.financeFolioActionsByFolioIdChargesPost(charge.folioId, createChargeModel);
 
       console.log('postChargeToFolio', result._response.parsedBody);
 
@@ -53,17 +59,17 @@ export class FolioService {
     }
   }
 
-  public async postAllowanceToFolioAndCharge(folioId: string, chargeId: string, reason: string, amount: number): Promise<CreatedSubResourceIdModel> {
+  public async postAllowanceToFolioAndCharge(allowance: Allowance): Promise<CreatedSubResourceIdModel> {
     const createAllowanceForChargeModel: CreateAllowanceForChargeModel = {
-      reason: reason,
+      reason: allowance.subject,
       amount: {
-        amount: amount,
-        currency: 'EUR'
+        amount: allowance.amount,
+        currency: allowance.currency
       }
     }
 
     try {
-      const result = await this.apiClient.financeFolioActionsByFolioIdChargesByChargeIdAllowancesPost(folioId, chargeId, createAllowanceForChargeModel);
+      const result = await this.apiClient.financeFolioActionsByFolioIdChargesByChargeIdAllowancesPost(allowance.folioId, allowance.chargeId, createAllowanceForChargeModel);
 
       console.log('postAllowanceToFolioByCharge', result._response.parsedBody);
 

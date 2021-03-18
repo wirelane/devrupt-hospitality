@@ -17,11 +17,15 @@ app.use(express.static('public'));
 app.use(express.urlencoded({ extended: true }));
 
 // Routes
+// User Interface
 app.get('/', homeController.indexEvseId);
 app.get('/evseid/:evseId', homeController.showEvseId);
-app.post('/evseid/:evseId', homeController.startCharging);
+app.post('/evseid/:evseId/start', homeController.startCharging);
+app.post('/evseid/:evseId/stop', homeController.stopCharging);
+app.get('/services/mapkit/jwt', servicesController.getJwt);
+
+// Debugging
 app.get('/reservations/:id', reservationsController.getReservationById);
 app.get('/reservation/unit/:name', reservationsController.getReservationByUnitName);
-app.get('/services/mapkit/jwt', servicesController.getJwt);
 
 export default app;
