@@ -13,6 +13,7 @@ app.set('views', 'src/views');
 app.set('view engine', 'pug');
 
 app.use(compression());
+app.use(express.json());
 app.use(express.static('public'));
 app.use(express.urlencoded({ extended: true }));
 
