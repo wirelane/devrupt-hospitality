@@ -1,4 +1,8 @@
 document.addEventListener('DOMContentLoaded', function(event) {
+  initMap();
+});
+
+function initMap() {
   mapkit.init({
     authorizationCallback: function(done) {
       fetch("/services/mapkit/jwt")
@@ -8,25 +12,27 @@ document.addEventListener('DOMContentLoaded', function(event) {
         });
     }
   });
+}
 
-  var chargePointCoordinate = new mapkit.Coordinate(48.134420, 11.665720);
+function setChargingPoint(chargingPoint) {
+  var chargingPointCoordinate = new mapkit.Coordinate(chargingPoint.latitude, chargingPoint.longitude);
 
-  var chargePoint = new mapkit.MarkerAnnotation(
-    chargePointCoordinate,
+  var chargingPointMarker = new mapkit.MarkerAnnotation(
+    chargingPointCoordinate,
     {
       color: "black",
-      title: "DE*WLN*E0004457",
+      title: chargingPoint.evseId,
       subtitle: "Charging Station by Wirelane",
       glyphImage: { 1: "/images/logo-20.png" }
     }
   );
 
   var center = new mapkit.CoordinateRegion(
-    chargePointCoordinate,
+    chargingPointCoordinate,
     new mapkit.CoordinateSpan(0.25, 0.25)
   );
 
   var map = new mapkit.Map("map");
   map.region = center;
-  map.showItems([chargePoint]);
-})
+  map.showItems([chargingPointMarker]);
+}

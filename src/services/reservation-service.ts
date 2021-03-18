@@ -26,6 +26,24 @@ export class ReservationService {
     }
   }
 
+  public async getReservationsByBookingNumber(bookingNumber: string): Promise<ReservationListModel> {
+    console.log('getReservationsByBookingNumber ' + bookingNumber);
+
+    try {
+      const result = await this.apiClient.bookingReservationsGet({
+        propertyIds: [config.APALEO_PROPERTY_ID],
+        status: ['Confirmed', 'InHouse'],
+        textSearch: bookingNumber
+      });
+
+      console.log('getReservationsByBookingNumber', result._response.parsedBody);
+
+      return result._response.parsedBody;
+    } catch (error) {
+      console.log('getReservationsByBookingNumber', error);
+    }
+  }
+
   public async getReservationsByUnitName(unitName: string): Promise<ReservationListModel> {
     try {
       const unitService = new UnitService();
