@@ -119,56 +119,83 @@ export const startCharging = async (req: Request, res: Response) => {
 
   if (!bookingNumber) {
     return res.status(400).json({
-      error: `Booking number not provided.`,
+      error: 'Please enter your booking number.',
+    });
+  }
+
+  if (!acceptedConditions) {
+    return res.status(400).json({
+      error: 'You need to accept the conditions to continue.',
     });
   }
 
   // 1. Find reservation
   const reservationService = new ReservationService();
   const reservation = await reservationService.getReservationByBookingNumber(bookingNumber);
-  console.log('**** Reservation ****\n', reservation);
 
   if (!reservation) {
     return res.status(404).json({
-      error: `Reservation ${bookingNumber} not found.`,
+      error: `The entered booking number ${bookingNumber} could not be found.`,
     });
   }
 
-  return res.json(reservation);
-
   // 2. Start session
   // TODO
+  const chargingSessionId = 1234;
 
   // 3. Put charge on folio (later in different action)
   const folioService = new FolioService();
   const folios = await folioService.getFoliosByReservationIds([reservation.id]);
   const folio = folios.folios[0];
-  console.log('**** Folios ****\n', folio);
 
-  const newCharge = {
+  const charge = await folioService.postChargeToFolio({
     folioId: folio.id,
     amount: 50,
     currency: 'EUR',
-    subject: 'Wirelane Charging Session 123456 @ ' + evseId + ' Reservation'
-  };
-  const charge = await folioService.postChargeToFolio(newCharge);
-  console.log('**** Charge ****\n', charge);
+    subject: `Wirelane Charging Session ${chargingSessionId} @ ${evseId} Final Amount`,
+  });
 
-  // 4. Put allowance on folio (later in different action)
-  const newAllowance = {
-    chargeId: charge.id,
+  res.json({
+    reservationId: reservation.id,
     folioId: folio.id,
-    amount: 50 - 12.80,
-    currency: 'EUR',
-    subject: 'Wirelane Charging Session 123456 @ ' + evseId + ' Final Amount'
-  };
-  const allowance = await folioService.postAllowanceToFolioAndCharge(newAllowance);
-  console.log('**** Allowance ****\n', allowance);
-
-  res.json(reservation);
+    chargeId: charge.id,
+    chargingSessionId: chargingSessionId,
+  });
 };
 
 export const stopCharging = async (req: Request, res: Response) => {
+  const evseId = req.params.evseId;
+  const bookingNumber = req.body.bookingNumber;
+  const chargeId = req.body.chargeId;
+  const folioId = req.body.folioId;
+  const chargingSessionId = req.body.chargingSessionId;
+
+  if (!bookingNumber || !chargeId || !folioId || !chargingSessionId) {
+    return res.status(400).json({
+      error: 'Invalid data provided.',
+    });
+  }
+
+  // 1. Find reservation
+  const reservationService = new ReservationService();
+  const reservation = await reservationService.getReservationByBookingNumber(bookingNumber);
+
+  if (!reservation) {
+    return res.status(404).json({
+      error: `The entered booking number ${bookingNumber} could not be found.`,
+    });
+  }
   
-  res.send('ok');
+  const folioService = new FolioService();
+  const allowance = await folioService.postAllowanceToFolioAndCharge({
+    chargeId: chargeId,
+    folioId: folioId,
+    amount: 50 - 12.80,
+    currency: 'EUR',
+    subject: `Wirelane Charging Session ${chargingSessionId} @ ${evseId} Final Amount`,
+  });
+
+  res.json({
+    allowanceId: allowance.id,
+  });
 };

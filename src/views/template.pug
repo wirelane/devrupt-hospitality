@@ -2,6 +2,7 @@ html
   head
     meta(name="viewport" content="width=device-width, initial-scale=1")
     link(href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous")
+    link(href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet")
     link(href="/styles/base.css" rel="stylesheet")
     link(href="/styles/" + tenant.identifier + ".css" rel="stylesheet")
     title= tenant.title
@@ -15,7 +16,7 @@ html
 
     #map
 
-    .container#app
+    .container
       h1 Charge. Pay. Done.
         |
         |
@@ -28,36 +29,56 @@ html
         | . The charges will occur on your hotel invoice upon checkout.
       br
 
-      .alert.alert-danger(role="alert" v-if="validationMessage.length")
-        | {{ validationMessage }}
-        br
-        span(v-if="validationMessageShowHelpAddon")
-          if poi.serviceHotline
-            | If you need assistance or feel this is a mistake, please
-            a.alert-link(href="tel:" + poi.serviceHotline) call #{poi.serviceHotline}
-            | .
-          else
-            | If you need assistance or feel this is a mistake, please see the frontdesk.
+      #app
+        section(v-if="activeSection === 'form'")
+          .alert.alert-danger(role="alert" v-if="validationMessage.length")
+            | {{ validationMessage }}
+            br
+            span(v-if="validationMessageShowHelpAddon")
+              if poi.serviceHotline
+                | If you need assistance or feel this is a mistake, please
+                a.alert-link(href="tel:" + poi.serviceHotline) call #{poi.serviceHotline}
+                | .
+              else
+                | If you need assistance or feel this is a mistake, please see the frontdesk.
 
-      form(action="/evseId/" + poi.evseid + "/start" method="POST" @submit.prevent="submitForm")
-        .mb-3
-          label.form-label(for="inputBookingNumber") Booking Number
-          input#inputBookingNumber.form-control(name="bookingNumber" v-model="bookingNumber" aria-describedby="bookingNumberHelp")
-          #bookingNumberHelp.form-text Your booking number or reservation number.
+          form(action="/evseId/" + poi.evseid + "/start" method="POST" @submit.prevent="submitStartForm")
+            .mb-3
+              label.form-label(for="inputBookingNumber") Booking Number
+              input#inputBookingNumber.form-control(name="bookingNumber" v-model="bookingNumber" aria-describedby="bookingNumberHelp")
+              #bookingNumberHelp.form-text Your booking number or reservation number.
 
-        .mb-3.form-check
-          input#tocCheck.form-check-input(type="checkbox" name="acceptedConditions" v-model="acceptedConditions")
-          label.form-check-label(for="tocCheck")
-            | I accept the
-            |
-            a(href=tenant.termsAndConditionsUrl target="_blank") Terms and Conditions
-            |
-            | and the
-            |
-            a(href=tenant.dataPrivacyUrl target="_blank") Data Privacy Agreement
-            | .
+            .mb-3.form-check
+              input#tocCheck.form-check-input(type="checkbox" name="acceptedConditions" v-model="acceptedConditions")
+              label.form-check-label(for="tocCheck")
+                | I accept the
+                |
+                a(href=tenant.termsAndConditionsUrl target="_blank") Terms and Conditions
+                |
+                | and the
+                |
+                a(href=tenant.dataPrivacyUrl target="_blank") Data Privacy Agreement
+                | .
 
-        button.btn.btn-primary(type="submit") Start Charging
+            button.btn.btn-primary(type="submit") Start Charging
+
+        section(v-if="activeSection === 'charging'")
+          form(action="/evseId/" + poi.evseid + "/stop" method="POST" @submit.prevent="submitStopForm")
+            span.material-icons check_circle_outline
+            .mb-3
+              | Charging session
+              |
+              strong {{ chargingSessionId }}
+              | 
+              | started on behalf of booking number
+              |
+              strong {{ bookingNumber }}
+              | .
+              br
+              | An initial reservation of 50€ has been added to your room.
+              | Once the charging has finished, the correct amount will be applied.
+
+            button.btn.btn-primary(type="submit") Stop Charging
   
     script(src="https://unpkg.com/vue@next")
     script(src="https://cdn.apple-mapkit.com/mk/5.x.x/mapkit.js")

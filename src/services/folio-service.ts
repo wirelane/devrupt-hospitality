@@ -1,8 +1,6 @@
 import {
   ApaleoFinanceAPI,
-  FolioModel,
   FolioListModel,
-  ChargeModel,
   CreateChargeModel,
   AddedChargeModel,
   CreateAllowanceForChargeModel,
@@ -35,7 +33,7 @@ export class FolioService {
     }
   }
 
-  public async postChargeToFolio(charge: Charge): Promise<AddedChargeModel> { // charge -> Charge
+  public async postChargeToFolio(charge: Charge): Promise<AddedChargeModel> {
     const createChargeModel: CreateChargeModel = {
       serviceType: 'Other',
       vatType: 'Normal',
