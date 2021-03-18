@@ -27,7 +27,7 @@ export class ReservationService {
   }
 
   public async getReservationsByBookingNumber(bookingNumber: string): Promise<ReservationListModel> {
-    console.log('getReservationsByBookingNumber ' + bookingNumber);
+    console.log('getReservationsByBookingNumber', bookingNumber);
 
     try {
       const result = await this.apiClient.bookingReservationsGet({
@@ -42,6 +42,22 @@ export class ReservationService {
     } catch (error) {
       console.log('getReservationsByBookingNumber', error);
     }
+  }
+
+  public async getReservationByBookingNumber(bookingNumber: string): Promise<ReservationItemModel> {
+    console.log('getReservationByBookingNumber ' + bookingNumber);
+
+    const result = await this.getReservationsByBookingNumber(bookingNumber);
+
+    if (!result || !result.reservations) {
+      return undefined;
+    }
+
+    const reservation = result.reservations.shift();
+
+    console.log('getReservationsByBookingNumber', reservation);
+
+    return reservation;
   }
 
   public async getReservationsByUnitName(unitName: string): Promise<ReservationListModel> {

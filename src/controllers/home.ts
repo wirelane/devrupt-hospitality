@@ -79,9 +79,14 @@ export const startCharging = async (req: Request, res: Response) => {
 
   // 1. Find reservation
   const reservationService = new ReservationService();
-  const reservations = await reservationService.getReservationsByBookingNumber(bookingNumber);
-  const reservation = reservations.reservations[0];
-  console.log('**** Reservations ****\n', reservation);
+  const reservation = await reservationService.getReservationByBookingNumber(bookingNumber);
+  console.log('**** Reservation ****\n', reservation);
+
+  if (!reservation) {
+    res.json({
+      error: `Reservation ${bookingNumber} not found.`,
+    });
+  }
 
   // 2. Start session
   // TODO

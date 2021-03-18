@@ -1,14 +1,12 @@
 import {
   ApaleoFinanceAPI,
-  FolioModel,
   FolioListModel,
-  ChargeModel,
   CreateChargeModel,
   AddedChargeModel,
   CreateAllowanceForChargeModel,
   CreatedSubResourceIdModel
 } from '../../clients/apaleo/finance/client';
-import { ApaleoOauth } from './apaleo-oauth';
+import { ApaleoOauth } from '../../clients/apaleo/apaleo-oauth';
 import config from '../config';
 
 export class FolioService {
