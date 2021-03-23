@@ -22,5 +22,4 @@ Node.js server connecting both the Apaleo API and the Wirelane API
 [![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy)
 
 # TODO
-- dotenv only in local env
 - business case description
