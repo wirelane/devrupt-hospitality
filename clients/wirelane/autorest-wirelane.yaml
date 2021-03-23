@@ -1,0 +1,8 @@
+typescript: true
+input-file: wirelane-v1.yaml
+output-folder: client
+add-credentials: true
+generate-metadata: false
+enum-types: true
+clear-output-folder: true
+source-code-folder-path: './'

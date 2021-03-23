@@ -1,0 +1,45 @@
+body {
+  padding-bottom: 20px;
+}
+
+.navbar img {
+  margin-right: 15px;
+}
+
+#map {
+  width: 100%;
+  height: 150px;
+  margin-bottom: 20px;
+}
+
+.wirelane {
+  font-size: 0.5em;
+}
+
+button[type=submit] {
+  width: 100%;
+}
+
+.alert i.bi {
+  float: left;
+  font-size: 22px;
+}
+
+.alert p {
+  margin-left: 35px;
+  margin-bottom: 0;
+}
+
+p.loading {
+  text-align: center;
+}
+
+i.bi.bi-battery-charging {
+  font-size: 50px;
+  animation: color_change 1s infinite alternate;
+}
+
+@keyframes color_change {
+	from { color: white; }
+	to { color: green; }
+}

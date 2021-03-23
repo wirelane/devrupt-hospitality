@@ -1,0 +1,57 @@
+{
+  "name": "Wirelane DEVrupt Hospitality",
+  "logo": "https://github.com/wirelane/devrupt-hospitality/raw/main/public/images/wirelane-1024.png",
+  "description": "Wirelane <-> Apaleo integration for the devrupt hospitality hackathon.",
+  "repository": "https://github.com/wirelane/devrupt-hospitality.git",
+  "env": {
+    "APALEO_BASE_URL": {
+      "description": "Apaleo API URL",
+      "value": "https://api.apaleo.com"
+    },
+    "APALEO_CLIENT_ID": {
+      "description": "Apaleo Client ID"
+    },
+    "APALEO_CLIENT_SECRET": {
+      "description": "Apaleo Client Secret"
+    },
+    "APALEO_IDENTITY_URL": {
+      "description": "Apaleo Identity Server URL",
+      "value": "https://identity.apaleo.com"
+    },
+    "APALEO_PROPERTY_ID": {
+      "description": "Property Code"
+    },
+    "MAPKIT_CERT_CONTENT": {
+      "description": "Apple MapKit Certificate File Content"
+    },
+    "MAPKIT_KEY_ID": {
+      "description": "Apple MapKit Key ID"
+    },
+    "MAPKIT_TEAM_ID": {
+      "description": "Apple Developer Team ID"
+    },
+    "MAPKIT_ORIGIN": {
+      "description": "The Application URL"
+    },
+    "WIRELANE_BASE_URL": {
+      "description": "Wirelane API URL",
+      "value": "https://api.wirelane.com"
+    },
+    "WIRELANE_CLIENT_ID": {
+      "description": "Wirelane Client ID"
+    },
+    "WIRELANE_CLIENT_PASSWORD": {
+      "description": "Wirelane Password"
+    },
+    "WIRELANE_CLIENT_SECRET": {
+      "description": "Wirelane Client Secret"
+    },
+    "WIRELANE_CLIENT_USERNAME": {
+      "description": "Wirelane Username"
+    },
+    "WIRELANE_IDENTITY_URL": {
+      "description": "Wirelane Identity Server URL",
+      "value": "https://oauth.emobilitycloud.com"
+    }
+  }      
+}

@@ -1,0 +1,892 @@
+swagger: "2.0"
+info:
+  version: "2.0"
+  title: Wirelane API
+  contact:
+    name: Wirelane GmbH
+    email: support@wirelane.com
+    url: https://www.wirelane.com
+  description: |
+    ## Basic information
+
+    To use this API, a `client_id` and `client_secret` is needed. Please contact our support to receive one for your app.
+
+    There are two kinds of endpoints: endpoints that are accessible without having an user account on the Wirelane platform, and endpoints that are accessible without. Both need a client_id and client_secret.
+
+    ## Authenticated endpoints
+
+    Retrieving a JWT access token on staging:
+    ```
+    POST https://oauth-staging.emobilitycloud.com/token
+    Content-Type: application/x-www-form-urlencoded
+    Accept: application/json
+
+    grant_type=password&client_id=...&client_secret=...&username=...&password=...&scope=account_admin
+    ```
+    Retrieving a JWT access token on production:
+    ```
+    POST https://oauth.emobilitycloud.com/token
+    Content-Type: application/x-www-form-urlencoded
+    Accept: application/json
+
+    grant_type=password&client_id=...&client_secret=...&username=...&password=...&scope=account_admin
+    ```
+    From the returned JSON, take the value of `access_token` and use it in the API request as follows:
+    ```
+    GET https://api.wirelane.com/apis/emc/organizations/id/dewln/points?page=1&page_size=50
+    Accept: application/json
+    Authorization: Bearer eyJ0...
+    ```
+
+    ## Unauthenticated endpoints
+
+    Retrieving a JWT access token on staging:
+    ```
+    POST https://oauth-staging.emobilitycloud.com/token
+    Content-Type: application/x-www-form-urlencoded
+    Accept: application/json
+
+    client_id=...&client_secret=...&grant_type=client_credentials&scope=account
+    ```
+    Retrieving a JWT access token on production:
+    ```
+    POST https://oauth.emobilitycloud.com/token
+    Content-Type: application/x-www-form-urlencoded
+    Accept: application/json
+
+    client_id=...&client_secret=...&grant_type=client_credentials&scope=account
+    ```
+    From the returned JSON, take the value of `access_token` and use it in the API request.
+
+    ## Host names for the endpoints
+
+    Host names for the API
+    - Staging: api-staging.wirelane.com
+    - Production: api.wirelane.com
+
+#host: api-staging.wirelane.com
+#basePath: /apis/emc
+schemes:
+  - https
+consumes:
+  - application/json
+produces:
+  - application/json
+security:
+  - OAuth2Password: ['account_admin']
+securityDefinitions:
+  OAuth2Password:
+    type: oauth2
+    flow: password
+    tokenUrl: https://oauth-staging.emobilitycloud.com/token
+    scopes:
+      account_admin: Account Admin
+  OAuth2ClientCredential:
+    type: oauth2
+    flow: application
+    tokenUrl: https://oauth-staging.emobilitycloud.com/token
+    scopes:
+      account: Account function
+paths:
+  /apis/emc/organizations/id/{organizationId}/points:
+    post:
+      description: Create a charging point for the provider of the organization.
+      tags:
+        - Organizations Charge Points
+      summary:  Create organization charge point
+      operationId: organizationCreateChargingPoint
+      parameters:
+        - name: organizationId
+          in: path
+          description: Organization ID
+          required: true
+          type: string
+          pattern: "^[a-zA-Z0-9-_]+$"
+        - $ref: '#/parameters/ChargingPointRequest'
+      responses:
+        200:
+          description: Created. Returns created charging point
+          schema:
+            $ref: '#/definitions/ChargingPoint'
+        400:
+          $ref: '#/responses/400'
+        401:
+          $ref: '#/responses/401'
+        404:
+          $ref: '#/responses/404'
+        500:
+          $ref: '#/responses/500'
+    get:
+      tags:
+        - Organizations Charge Points
+      summary: Get organization charge points
+      description: |
+        Finding charging points for the account.
+      operationId: organizationFindChargingPoints
+      parameters:
+        - name: organizationId
+          in: path
+          description: Organization ID
+          required: true
+          type: string
+          pattern: "^[a-zA-Z0-9-_]+$"
+        - $ref: '#/parameters/pageNumberParam'
+        - $ref: '#/parameters/itemsPerPageParam'
+        - $ref: '#/parameters/searchStringSpecialCharactersParam'
+        - $ref: '#/parameters/pointOrderByParam'
+        - $ref: '#/parameters/orderDirectionParam'
+        - $ref: '#/parameters/latParam'
+        - $ref: '#/parameters/lonParam'
+        - $ref: '#/parameters/distanceParam'
+        - $ref: '#/parameters/southWestLat'
+        - $ref: '#/parameters/southWestLon'
+        - $ref: '#/parameters/northEastLat'
+        - $ref: '#/parameters/northEastLon'
+        - $ref: '#/parameters/plugTypesParameter'
+        - $ref: '#/parameters/pointStatusParam'
+        - $ref: '#/parameters/chargingTypeParam'
+        - $ref: '#/parameters/authTypesParameter'
+        - $ref: '#/parameters/maxPowerParam'
+        - $ref: '#/parameters/infrastructureOnlyParam'
+        - $ref: '#/parameters/pointGroupsSearchParam'
+        - $ref: '#/parameters/evseidListParam'
+        - $ref: '#/parameters/sortLatParam'
+        - $ref: '#/parameters/sortLonParam'
+        - $ref: '#/parameters/reservableOnlyParam'
+        - $ref: '#/parameters/chargingStationIdListParam'
+        - $ref: '#/parameters/ownerIdListParam'
+        - $ref: '#/parameters/notInPointGroupsParam'
+      # respons for the charging points exchange request
+      responses:
+        200:
+          description: List of found charging points
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/ChargingPoint'
+          headers:
+            X-Total-Count:
+              description: Total number of items
+              type: integer
+            X-Total-Pages:
+              description: Total number of pages
+              type: integer
+        400:
+          $ref: '#/responses/400'
+        401:
+          $ref: '#/responses/401'
+        403:
+          $ref: '#/responses/403'
+        404:
+          $ref: '#/responses/404'
+        406:
+          $ref: '#/responses/406'
+        429:
+          $ref: '#/responses/429'
+        500:
+          $ref: '#/responses/500'
+        503:
+          $ref: '#/responses/503'
+        default:
+          $ref: '#/responses/default'
+  /apis/emc/organizations/id/{organizationId}/points/{pointTypeId}/{pointId}:
+    get:
+      tags:
+        - Organizations Charge Points
+      summary: Get one point from organization
+      description: |
+        Get a single charging point by their charging point evseId
+      operationId: organizationFindChargingPoint
+      parameters:
+        - name: organizationId
+          in: path
+          description: Organization ID
+          required: true
+          type: string
+          pattern: "^[a-zA-Z0-9-_]+$"
+        - name: pointTypeId
+          in: path
+          description: |
+            Sets which field of ChargingPoint the `pointId` parameters refers to:
+              * `id` / `charging_point_id`: The internal ID of the EVSE
+              * `evseid`: The Roaming EVSE ID
+              * `charge_point_id`: The technical ID of the charge point connector. Shown to the user, and could be printed on the label (label code)
+          required: true
+          type: string
+          enum:
+            - id
+            - evseid
+            - charging_point_id
+            - charge_point_id
+          pattern: "^[a-zA-Z0-9-_]+$"
+        - name: pointId
+          in: path
+          description: The ID to search for. Note that not all characters indicated by the pattern are allowed for each type of ID; e.g., the asterisk is only allowed if an EVSE ID is provided.
+          required: true
+          type: string
+          pattern: "^[a-zA-Z0-9-_*]+$"
+      # respons for the charging point exchange request
+      responses:
+        200:
+          description: |
+            Charge point found
+          schema:
+            $ref: '#/definitions/ChargingPoint'
+        400:
+          $ref: '#/responses/400'
+        401:
+          $ref: '#/responses/401'
+        403:
+          $ref: '#/responses/403'
+        404:
+          $ref: '#/responses/404'
+        406:
+          $ref: '#/responses/406'
+        429:
+          $ref: '#/responses/429'
+        500:
+          $ref: '#/responses/500'
+        503:
+          $ref: '#/responses/503'
+        default:
+          $ref: '#/responses/default'
+    put:
+      description: Update a charging point for the provider of the organization.
+      tags:
+        - Organizations Charge Points
+      summary:  Update organization charge point
+      operationId: organizationUpdateChargingPoint
+      parameters:
+        - name: organizationId
+          in: path
+          description: Organization ID
+          required: true
+          type: string
+          pattern: "^[a-zA-Z0-9-_]+$"
+        - name: pointTypeId
+          in: path
+          description: |
+            Sets which field of ChargingPoint the `pointId` parameters refers to:
+              * `id` / `charging_point_id`: The internal ID of the EVSE
+              * `evseid`: The Roaming EVSE ID
+              * `charge_point_id`: The technical ID of the charge point connector. Shown to the user, and could be printed on the label (label code)
+          required: true
+          type: string
+          enum:
+            - id
+            - evseid
+            - charging_point_id
+            - charge_point_id
+          pattern: "^[a-zA-Z0-9-_]+$"
+        - name: pointId
+          in: path
+          description: The ID to search for. Note that not all characters indicated by the pattern are allowed for each type of ID; e.g., the asterisk is only allowed if an EVSE ID is provided.
+          required: true
+          type: string
+          pattern: "^[a-zA-Z0-9-_*]+$"
+        - $ref: '#/parameters/ChargingPointRequest'
+      responses:
+        200:
+          description: Updated. Returns updated charging point
+          schema:
+            $ref: '#/definitions/ChargingPoint'
+        400:
+          $ref: '#/responses/400'
+        401:
+          $ref: '#/responses/401'
+        404:
+          $ref: '#/responses/404'
+        500:
+          $ref: '#/responses/500'
+
+definitions:
+  OpeningHours:
+    properties:
+      label:
+        type: string
+        description: Arbitrary label to give the availability.
+        example: 'Mon-Fr 08:00-22:00, Sat-Sun CLOSED'
+      open247:
+        type: boolean
+        description: Is available 24/7. If true, Monday - Sunday times will be ignored.
+        example: false
+      monday:
+        type: array
+        items:
+          type: string
+        description: Start and end time pairs reperesenting availability on Mondays.
+        example: [["0900","1230"],["1330","0000"]]
+      tuesday:
+        type: array
+        items:
+          type: string
+        description: Start and end time pairs reperesenting availability on Tuesdays.
+        example: [["0000","0000"]]
+      wednesday:
+        type: array
+        items:
+          type: string
+        description: Start and end time pairs reperesenting availability on Wednesdays.
+        example: [["0900","1230"],["1330","0000"]]
+      thursday:
+        type: array
+        items:
+          type: string
+        description: Start and end time pairs reperesenting availability on Thursdays.
+        example: [["0000","0000"]]
+      friday:
+        type: array
+        items:
+          type: string
+        description: Start and end time pairs reperesenting availability on Fridays.
+        example: [["0900","1230"],["1330","1645"],["1800","0000"]]
+      saturday:
+        type: array
+        items:
+          type: string
+        description: Start and end time pairs reperesenting availability on Saturdays.
+        example: [["0000","0000"]]
+      sunday:
+        type: array
+        items:
+          type: string
+        description: Start and end time pairs reperesenting availability on Sundays.
+        example: []
+      exceptionalOpenings:
+        type: object
+        description: Start and end time pairs reperesenting availability on specific dates. Dates in Y-m-d format. * can be used as year, month or day wildcards to represent recurring dates.
+        example: {"2020-12-24":[["0000","0900"],["0930","1300"]],"*-12-25":[],"*-12-26":[]}
+  HttpError:
+    properties:
+      error_code:
+        description: The error code describing the error
+        type: string
+        example: validation_error
+      error_message:
+        description: The human readable error message describing the error
+        type: string
+        example: Provided data is not valid
+  ChargingPointGroup:
+    properties:
+      id:
+        description: The internal ID of the charging point group
+        type: integer
+        example: 1
+      name:
+        description: The group name
+        type: string
+        example: AC Chargers
+      owner:
+        type: string
+        example: WIRELANE-2500781
+  ChargingPoint:
+    required:
+      - charge_point_id
+    properties:
+      # charging point ID's
+      id:
+        description: The internal ID of the EVSE (not to be displayed). The same value as `charging_point_id`. This value is generated by the Wirelane backend when the charge point is initially submitted.
+        readOnly: true
+        type: string
+        example: 00eb08a9b45c69a4f9f14982a0095e12
+      charging_point_id:
+        description: The internal ID of the EVSE (not to be displayed). The same value as `id`. This value is generated by the Wirelane backend when the charge point is initially submitted.
+        readOnly: true
+        type: string
+        example: 00eb08a9b45c69a4f9f14982a0095e12
+      charging_station_id:
+        description: An optional user-defined ID to group different charging points into one logical station. Used for grouping in some apps.
+        type: string
+        example: 98fd4f3a554f33c12eca9b5e2e4b369a
+      charge_point_id:
+        description: The technical ID of the charge point connector. Shown to the user, and could be printed on the label (label code)
+        type: string
+        example: 00eb08a9b45c69a4f9f14982a0095e12
+      evseid:
+        description: The EVSE ID used for roaming.
+        type: string
+        example: DESGDE000801
+      display_id:
+        discriminator: An optional display ID
+        type: string
+        example: RED_LEFT
+      # ownership
+      owner:
+        description: The owner of the charging station.
+        type: string
+        example: WIRELANE-2500781
+      emp:
+        description: Name of the Emobility provider. [Deprecated]
+        type: string
+        example: desgd
+      cpo:
+        description: Name of the Charge Point Operator
+        type: string
+        example: desgd
+      # technical definitions
+      plug_types:
+        description: Up to four types of plugs.
+        type: array
+        items:
+          type: string
+          enum:
+            - TYPE_1
+            - TYPE_1_ATCH
+            - TYPE_2
+            - TYPE_2_ATCH
+            - TYPE_3
+            - TYPE_3_ATCH
+            - CHADEMO
+            - CCS
+            - SCHUKO
+            - UNKNOWN
+        example:
+          - TYPE_2
+          - SCHUKO
+      charging_type:
+        description: Electricity type (AC or DC)
+        type: string
+        enum:
+          - AC
+          - DC
+      model:
+        description: Name of the charge point model
+        type: string
+      serial_number:
+        description: The serial number
+        type: string
+      current:
+        description: Current in Ampere
+        type: integer
+      power:
+        description: Power in kWh
+        type: number
+        format: double
+        example: 22
+      voltage:
+        description: Voltage in V
+        type: integer
+        example: 230
+      reservable:
+        description: If this charging point supports reservations
+        type: boolean
+        example: true
+      authentication_types:
+        description: Authentication method for the charging point
+        type: array
+        items:
+          type: string
+          enum:
+            - card
+            - remote
+            - direct
+        example:
+          - card
+          - remote
+          - direct
+      # status information
+      status:
+        type: string
+        description: |
+          Status of the points. If one point in the station hits the requested status the entire station is returned.  (Comma Separated List)
+            * FREE : Point is free.
+            * IN_USE :  Point is used by a card (might also be reserved).
+            * UNAVAILABLE : Point is unavailable right now. Might not be installed or broken.
+            * UNKNOWN : The point status is unknonwn.
+            * FAULTED : Point is faulted or temporary faulted.
+            * RESERVED : The point is reserved.
+            * CLOSED : The point status is closed (the point is not in use anymore).
+        enum:
+          - FREE
+          - IN_USE
+          - UNAVAILABLE
+          - UNKNOWN
+          - FAULTED
+          - RESERVED
+          - CLOSED
+      # address and location
+      country:
+        type: string
+        description: In ISO 3166-1 alpha-2
+        example: DE
+      city:
+        type: string
+        example: 'Schwäbisch Gmünd'
+      zip_code:
+        type: string
+        example: 73525
+      street:
+        type: string
+        example: Honiggasse
+      house_number:
+        type: string
+        example: 21
+      opening_hours:
+        type: string
+        description: '@deprecated - use availability instead. Label describing charging point availability.'
+        example: 'Mo-Fr 09:00 - 20:00'
+      availability:
+        type: object
+        description: Availability of charging point
+        allOf:
+          - $ref: '#/definitions/OpeningHours'
+      timezone:
+        type: string
+        description: Timezone of charging point.
+        example: Europe/Berlin
+      service_hotline:
+        description: The telephone number of the service hotline
+        type: string
+        example: 0800557788
+      longitude:
+        description: Longitude of the charging point (WGS 84)
+        type: number
+        format: float
+        example: 9.79944
+      latitude:
+        description: Latitude of the charging point (WGS 84)
+        type: number
+        format: float
+        example: 48.8026
+      distance:
+        description: Is returned when searching for charging points and providing a center
+        type: number
+        format: float
+        example: 1002.23
+      # udate and creation date
+      creation_date:
+        type: string
+        format: 'date-time'
+        description: ISO 8601
+        example: 2015-11-25T10:43:02+0100
+        readOnly: true
+      update_date:
+        type: string
+        format: 'date-time'
+        description: ISO 8601
+        example: 2017-10-25T06:55:44+0200
+        readOnly: true
+      payment_url:
+        type: string
+        example: "https://www.wirelane.com/laydepay"
+      charging_provider:
+        type: string
+        readOnly: true
+        example: "emc"
+        description: If the charging point is using the Wirelane backend or a delegated backend, use "emc".
+      charging_group:
+        type: array
+        items:
+          $ref: "#/definitions/ChargingPointGroup"
+
+parameters:
+  latParam:
+    name: lat
+    in: query
+    description: Latitude
+    required: false
+    type: string
+    pattern: "^[-+]?[0-9]*.?[0-9]+$"
+  lonParam:
+    name: lon
+    in: query
+    description: Longitude
+    required: false
+    type: string
+    pattern: "^[-+]?[0-9]*.?[0-9]+$"
+  sortLatParam:
+    name: sort_lat
+    in: query
+    description: Latitude for sortable
+    required: false
+    type: string
+    pattern: "^[-+]?[0-9]*.?[0-9]+$"
+  sortLonParam:
+    name: sort_lon
+    in: query
+    description: Longitude for sortable
+    required: false
+    type: string
+    pattern: "^[-+]?[0-9]*.?[0-9]+$"
+  distanceParam:
+    name: distance
+    in: query
+    description: Search distance in meters
+    required: false
+    type: string
+    pattern: "^[0-9]*$"
+  southWestLat:
+    name: south_west_lat
+    in: query
+    description: Latitude
+    required: false
+    type: string
+    pattern: "^[-+]?[0-9]*.?[0-9]+$"
+  southWestLon:
+    name: south_west_lon
+    in: query
+    description: Longitude
+    required: false
+    type: string
+    pattern: "^[-+]?[0-9]*.?[0-9]+$"
+  northEastLat:
+    name: north_east_lat
+    in: query
+    description: Latitude
+    required: false
+    type: string
+    pattern: "^[-+]?[0-9]*.?[0-9]+$"
+  northEastLon:
+    name: north_east_lon
+    in: query
+    description: Longitude
+    required: false
+    type: string
+    pattern: "^[-+]?[0-9]*.?[0-9]+$"
+  searchStringSpecialCharactersParam:
+    name: search
+    in: query
+    description: Context search string
+    required: false
+    type: string
+    pattern: '^[a-zA-ZÀ-ÿ0-9-_*.,\x27\x20]+$'
+  pointGroupsSearchParam:
+    name: point_groups
+    in: query
+    description: Search for specific point groups
+    required: false
+    type: array
+    items:
+      type: string
+      pattern: "^[0-9]+$"
+    collectionFormat: csv
+  pointOrderByParam:
+    name: order_by
+    in: query
+    description: Name for sort
+    required: false
+    type: string
+    enum:
+      - evseid
+      - status
+      - latitude
+      - longitude
+      - power
+      - voltage
+      - chargingType
+      - plugType
+      - country
+      - city
+      - zipCode
+      - creationDate
+      - updateDate
+      - distance
+  orderDirectionParam:
+    name: order_direction
+    in: query
+    description: Key for order direction
+    required: false
+    type: string
+    enum:
+      - asc
+      - desc
+  evseidListParam:
+    name: evseid
+    in: query
+    description: Filter by list of evseids
+    required: false
+    type: array
+    items:
+      type: string
+  ownerIdListParam:
+    name: owner_id
+    in: query
+    description: Filter by list of owner_id
+    required: false
+    type: array
+    items:
+      type: string
+  notInPointGroupsParam:
+    name: not_in_point_groups
+    in: query
+    required: false
+    type: array
+    items:
+      type: string
+  pointGroupsParam:
+    name: point_groups
+    in: query
+    required: false
+    type: array
+    items:
+      type: string
+  chargingStationIdListParam:
+    name: charging_station_id
+    in: query
+    description: Filter by list of charging station id's
+    required: false
+    type: array
+    items:
+      type: string
+  pageNumberParam:
+    name: page
+    in: query
+    description: Number of current page
+    required: false
+    type: string
+    pattern: "^[0-9]*$"
+    default: 1
+  itemsPerPageParam:
+    name: page_size
+    in: query
+    description: Number of items per page
+    required: false
+    type: string
+    pattern: "^[0-9]*$"
+    default: 50
+  infrastructureOnlyParam:
+    name: infrastructure_only
+    in: query
+    description: To exchange only infrastructure specific data
+    required: false
+    type: string
+    pattern: "^[0-1]{1}$"
+  reservableOnlyParam:
+    name: reservable
+    in: query
+    description: To exchange only reservable points
+    required: false
+    type: string
+    pattern: "^[0-1]{1}$"
+  chargingTypeParam:
+    name: charging_type
+    in: query
+    description: |
+      The charging type. (Comma Separated List)
+        * AC
+        * DC
+    required: false
+    type: array
+    items:
+      type: string
+      enum:
+        - AC
+        - DC
+    collectionFormat: csv
+  pointStatusParam:
+    name: status
+    in: query
+    description: |
+      Status of the points. If one point in the station hits the requested status the entire station is returned.  (Comma Separated List)
+        * FREE : Point is free.
+        * IN_USE :  Point is used by a card (might also be reserved).
+        * UNAVAILABLE : Point is unavailable right now. Might not be installed or broken.
+        * UNKNOWN : The point status is unknonwn.
+        * FAULTED : Point is faulted or temporary faulted.
+        * RESERVED : The point is reserved.
+        * CLOSED : The point status is closed (the point is not in use anymore).
+    required: false
+    type: array
+    items:
+      type: string
+    collectionFormat: csv
+  plugTypesParameter:
+    name: plug_types
+    in: query
+    description: |
+      The plug types. (Comma Separated List)
+        * TYPE_1
+        * TYPE_1_ATCH : With cable attached
+        * TYPE_2
+        * TYPE_2_ATCH : With cable attached
+        * TYPE_3
+        * TYPE_3_ATCH : With cable attached
+        * CHADEMO
+        * CCS
+        * SCHUKO
+        * UNKNOWN
+    required: false
+    type: array
+    items:
+      type: string
+      enum:
+        - TYPE_1
+        - TYPE_1_ATCH
+        - TYPE_2
+        - TYPE_2_ATCH
+        - TYPE_3
+        - TYPE_3_ATCH
+        - CHADEMO
+        - CCS
+        - SCHUKO
+        - UNKNOWN
+    collectionFormat: csv
+  authTypesParameter:
+    name: auth_type
+    in: query
+    description: |
+      The charging station authorization type. (Comma Separated List)
+        * card
+        * remote
+        * direct
+    required: false
+    type: array
+    items:
+      type: string
+      enum:
+        - card
+        - remote
+        - direct
+    collectionFormat: csv
+  maxPowerParam:
+    name: max_power
+    in: query
+    description: |
+      The charging speed. Greater than 0
+    required: false
+    type: string
+    pattern: "^[-+]?[0-9]*.?[0-9]+$"
+  ChargingPointRequest:
+    name: charging_point
+    description: Create a charging point
+    required: true
+    in: body
+    schema:
+      $ref: '#/definitions/ChargingPoint'
+responses:
+  400:
+    description: "Bad Request - Request is somehow wrong"
+    schema:
+      $ref: '#/definitions/HttpError'
+  401:
+    description: "User not authorized"
+    schema:
+      $ref: '#/definitions/HttpError'
+  403:
+    description: "Forbidden - The API token is not authorized to perform this request"
+    schema:
+      $ref: '#/definitions/HttpError'
+  404:
+    description: "Not Found - The resource could not be found"
+    schema:
+      $ref: '#/definitions/HttpError'
+  406:
+    description: "Not Acceptable - The format is not supported"
+    schema:
+      $ref: '#/definitions/HttpError'
+  429:
+    description: "Too Many Requests - API usage exceeded"
+    schema:
+      $ref: '#/definitions/HttpError'
+  500:
+    description: "Internal Server Error - Problem with the server. Try again later or report it."
+    schema:
+      $ref: '#/definitions/HttpError'
+  503:
+    description: "Service Unavailable - Temporarily offline for maintenance. Please try again later."
+    schema:
+      $ref: '#/definitions/HttpError'
+  default:
+    description: "Default response object error"
+    schema:
+      $ref: "#/definitions/HttpError"
