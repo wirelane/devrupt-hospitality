@@ -1,4 +1,4 @@
-# Wirelane Devrupt Hospitality
+# Wirelane Devrupt Hospitality <img align="right" src="https://github.com/wirelane/devrupt-hospitality/raw/main/public/images/logo-20.png">
 Wirelane <-> Apaleo integration for the [devrupt hospitality hackathon](https://www.devrupt-hospitality.com/).
 
 ## Business Case
