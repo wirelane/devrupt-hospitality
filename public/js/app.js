@@ -59,6 +59,8 @@ const HotelCharging = {
         .catch(error => console.error(error));
     },
     submitStopForm(event) {
+      this.activeSection = 'loading';
+
       fetch(event.target.action, {
         method: 'POST',
         headers: {
@@ -76,6 +78,7 @@ const HotelCharging = {
           console.log(data);
 
           if (data.error) {
+            this.activeSection = 'charging';
             this.validationMessage = data.error;
             this.validationMessageShowHelpAddon = true;
             return;
