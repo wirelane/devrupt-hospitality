@@ -70,6 +70,11 @@ const maseven1: ChargingPoint = {
   hotel: maseven
 }
 
+const maseven2: ChargingPoint = {
+  evseId: 'DE*WLN*E12345678',
+  hotel: maseven
+}
+
 const wirelane1: ChargingPoint = {
   evseId: 'DE*WLN*E0123456',
   hotel: wirelane
@@ -84,6 +89,7 @@ const chargingPoints: { [key: string]: ChargingPoint } = {
   'DE*WLN*E0004457': maseven1, // production
   'DE*WLN*E0123456': wirelane1, // production
   'DEWLNE84064999': wirelane2, // staging
+  'DE*WLN*E12345678': maseven2 //staging
 }
 
 const demoTariff: Tariff = {
