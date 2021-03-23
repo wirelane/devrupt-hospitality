@@ -1,7 +1,6 @@
 const path = require('path');
 const TsconfigPathsPlugin = require('tsconfig-paths-webpack-plugin');
 const nodeExternals = require('webpack-node-externals');
-const Dotenv = require('dotenv-webpack');
 
 module.exports = {
   target: 'node',
