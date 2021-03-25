@@ -42,6 +42,7 @@ export interface ChargingSession {
   duration: number,
   price: number,
   currency: string,
+  kWh: number
 }
 
 const wirelane: Hotel = {
