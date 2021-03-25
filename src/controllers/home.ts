@@ -101,9 +101,10 @@ const demoTariff: Tariff = {
 
 const demoChargingSession: ChargingSession = {
   id: 'a22bd0eb',
-  duration: 60,
-  price: 12.8,
-  currency: 'EUR'
+  duration: 150,
+  price: 10.45,
+  currency: 'EUR',
+  kWh: 27.5
 }
 
 export const indexEvseId = (req: Request, res: Response) => {
@@ -171,7 +172,7 @@ export const startCharging = async (req: Request, res: Response) => {
     folioId: folio.id,
     amount: demoTariff.reservationAmount,
     currency: demoTariff.currency,
-    subject: `Wirelane Charging Session ${demoChargingSession.id} at ${evseId} - Reservation for tariff ${demoTariff.name} with ${demoTariff.pricePerKwh} EUR/Kwh`,
+    subject: `Wirelane Charging Session ${demoChargingSession.id} at ${evseId} on 2021-03-25 at 2.37 pm - Tariff: €${demoTariff.pricePerKwh}/kWh`,
   });
 
   res.json({
@@ -211,7 +212,7 @@ export const stopCharging = async (req: Request, res: Response) => {
     folioId: folioId,
     amount: demoTariff.reservationAmount - demoChargingSession.price,
     currency: demoTariff.currency,
-    subject: `Wirelane Charging Session ${demoChargingSession.id} at ${evseId} - Ended after ${demoChargingSession.duration} minutes`,
+    subject: `Wirelane Charging Session ${demoChargingSession.id} at ${evseId} on 2021-03-25 at 2.37 pm - Ended on 2021-03-25 at 5.07 pm - ${demoChargingSession.kWh} kWh * €${demoTariff.pricePerKwh} = ${demoChargingSession.price}`,
   });
 
   res.json({
