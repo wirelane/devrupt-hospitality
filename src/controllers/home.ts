@@ -213,7 +213,7 @@ export const stopCharging = async (req: Request, res: Response) => {
     folioId: folioId,
     amount: demoTariff.reservationAmount - demoChargingSession.price,
     currency: demoTariff.currency,
-    subject: `Wirelane Charging Session ${demoChargingSession.id} at ${evseId} on 2021-03-25 at 2.37 pm - Ended on 2021-03-25 at 5.07 pm - ${demoChargingSession.kWh} kWh * €${demoTariff.pricePerKwh} = ${demoChargingSession.price}`,
+    subject: `Wirelane Charging Session ${demoChargingSession.id} at ${evseId} on 2021-03-25 at 2.37 pm - Ended on 2021-03-25 at 5.07 pm - ${demoChargingSession.kWh} kWh * €${demoTariff.pricePerKwh} = €${demoChargingSession.price}`,
   });
 
   res.json({
