@@ -11,16 +11,33 @@ The hotel invoice then lists all charging sessions together with all other servi
 A demo will be provided via video.
 
 ## Technical Solution
-Node.js server connecting both the Apaleo API and the Wirelane API
+Node.js server connecting both the Apaleo API and the Wirelane API.
 
-### Requirements
+### Development
+
+#### Requirements
 - Docker
 
-### Setup
-1. Use the `.env.example` file to fill in all necessary information to `.env`.
+#### Setup
+Copy the `.env.example` to `.env` and fill in all the required information.
 
-### Start
-1. Execute `docker-compose up` to start the server.
+#### Run
+Execute `docker-compose up` to start the server.
 
 ### Deployment
+
+#### Requirements
+- Docker or Node.js 14.x
+
+#### Heroku
+You can deploy this project directly to Heroku with the following button:
+
 [![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy)
+
+## Documentation
+
+### Used Apaleo APIs
+
+* Booking API: For booking number based authentication.
+* Finance API: For looking up matching folio and to post the charges to the users invoice.
+* Inventory API: For looking up matching room numbers. (not in use right now)
