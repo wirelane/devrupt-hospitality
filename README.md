@@ -15,7 +15,7 @@ The hotel invoice then lists all charging sessions together with all other servi
 [![Demo Video](https://github.com/wirelane/devrupt-hospitality/raw/main/public/images/video.png)](https://wirelane-my.sharepoint.com/:v:/p/chris_blaettermann/EWxuK35pr1xMgtCwSY5b85QB4gRnoh3A7p9mQy4IJNXULA?e=QEfWSr)
 The password can be retrieved from [Bastian Konetzny](https://github.com/bkonetzny) or [Chris Blättermann](https://github.com/chrblabla).
 
-## Demonstration
+### Demonstration
 
 A working demonstration can be found under [https://wirelane-devrupt-hospitality.herokuapp.com](https://wirelane-devrupt-hospitality.herokuapp.com). Alternatively, the following QR code can be scanned and it directs to one of the charging stations within the demo:
 
