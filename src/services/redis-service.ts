@@ -23,4 +23,12 @@ export class RedisService {
   public set(key: string, value: string) {
     this.client.set(key, value);
   }
+
+  public del(key: string): Promise<Number> {
+    return new Promise<Number>((resolve, reason) => {
+      this.client.del(key, (err, data) => {
+        resolve(data);
+      });
+    });
+  }
 }

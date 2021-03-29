@@ -138,6 +138,8 @@ export const stopCharging = async (req: Request, res: Response) => {
   // 3. Stop charging session
   const sessionService = new SessionService()
   const chargingSession = await sessionService.stopSession(chargingSessionId);
+
+  redisService.del(bookingNumber);
   
   // 4. Put allowance onto folio 
   const folioService = new FolioService();
