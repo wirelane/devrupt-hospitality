@@ -22,13 +22,4 @@ export class PoiService {
       console.log('getPoiInformation', error);
     }
   }
-
-  // initiates a remote start for the CP at evseid
-  public async startSession(evseid: string): Promise<any> {
-
-  }
-
-  public async stopSession(evseid: string): Promise<any> {
-    
-  }
 }

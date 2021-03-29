@@ -123,9 +123,8 @@ export const stopCharging = async (req: Request, res: Response) => {
   }
 
   // 2. Stop charging session
-  const sessionId = 'a22bd0eb';
   const sessionService = new SessionService();
-  const demoChargingSession = await sessionService.stopSession(sessionId);
+  const demoChargingSession = await sessionService.stopSession(chargingSessionId);
   
   // 3. Put allowance onto folio 
   const folioService = new FolioService();

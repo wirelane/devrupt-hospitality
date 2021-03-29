@@ -1,10 +1,7 @@
-import {
-  ChargingPoint,
-  WirelaneAPI,
-} from '../../../clients/wirelane/client';
+import { WirelaneAPI } from '../../../clients/wirelane/client';
 import config from '../../config';
 import { WirelaneOauth } from '../../../clients/wirelane/wirelane-oauth';
-import { ChargingSession } from '../../models/model';
+import { ChargingSession } from '../../models/model'; // later to be imported from the Wirelane API client
 import { demoChargingSession } from '../../data/data';
 
 export class SessionService {
@@ -17,6 +14,7 @@ export class SessionService {
     // TODO: use Wirelane API client to start the session
     return new Promise((resolve, reject) => {
       // Mocked Response
+      // This part of the Wirelane API is not yet public.
       resolve(demoChargingSession);
     });
   }
@@ -25,6 +23,7 @@ export class SessionService {
     // TODO: use Wirelane API client to stop the session
     return new Promise((resolve, reject) => {
       // Mocked Response
+      // This part of the Wirelane API is not yet public.
       resolve(demoChargingSession);
     });
   }

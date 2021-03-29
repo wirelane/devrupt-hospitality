@@ -50,7 +50,7 @@ export const chargingPoints: { [key: string]: ChargingPoint } = {
   'DE*WLN*E0004457': maseven1, // production
   'DE*WLN*E0123456': wirelane1, // production
   'DEWLNE84064999': wirelane2, // staging
-  'DE*WLN*E12345678': maseven2 //staging
+  'DE*WLN*E12345678': maseven2 // staging
 }
 
 export const demoTariff: Tariff = {
