@@ -74,8 +74,6 @@ export const startCharging = async (req: Request, res: Response) => {
   // 2. Start session
   const sessionService = new SessionService();
   const demoChargingSession = await sessionService.startSession(evseId);
-
-  // Session (initiated, pending, active, closed)
   // TODO save session to db with status pending
 
   // 3. Put charge on folio (later in different action)
@@ -125,8 +123,9 @@ export const stopCharging = async (req: Request, res: Response) => {
   }
 
   // 2. Stop charging session
+  const sessionId = 'a22bd0eb';
   const sessionService = new SessionService();
-  const demoChargingSession = await sessionService.stopSession(evseId);
+  const demoChargingSession = await sessionService.stopSession(sessionId);
   
   // 3. Put allowance onto folio 
   const folioService = new FolioService();

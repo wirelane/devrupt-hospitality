@@ -21,7 +21,7 @@ export class SessionService {
     });
   }
 
-  public async stopSession(evseid: string): Promise<ChargingSession> {
+  public async stopSession(sessionId: string): Promise<ChargingSession> {
     return new Promise((resolve, reject) => {
       // Mocked Response
       resolve(demoChargingSession);
