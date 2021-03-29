@@ -8,6 +8,7 @@ export default {
     MAPKIT_KEY_ID: process.env.MAPKIT_KEY_ID,
     MAPKIT_ORIGIN: process.env.MAPKIT_ORIGIN,
     MAPKIT_TEAM_ID: process.env.MAPKIT_TEAM_ID,
+    REDIS_URL: process.env.REDIS_URL,
     WIRELANE_BASE_URL: process.env.WIRELANE_BASE_URL,
     WIRELANE_CLIENT_ID: process.env.WIRELANE_CLIENT_ID,
     WIRELANE_CLIENT_PASSWORD: process.env.WIRELANE_CLIENT_PASSWORD,

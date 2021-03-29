@@ -3,7 +3,7 @@ import { FolioService } from '../services/apaleo/folio-service';
 import { PoiService } from '../services/wirelane/poi-service';
 import { ReservationService } from '../services/apaleo/reservation-service';
 import { SessionService } from '../services/wirelane/session-service';
-
+import { RedisService } from '../services/redis-service';
 import {
   chargingPoints,
   demoTariff
@@ -12,7 +12,7 @@ import {
 /**
  * @route GET /
  */
-export const indexEvseId = (req: Request, res: Response) => {
+export const indexEvseId = async (req: Request, res: Response) => {
   res.render('index.pug', { listing: chargingPoints });
 };
 
@@ -73,10 +73,13 @@ export const startCharging = async (req: Request, res: Response) => {
 
   // 2. Start session
   const sessionService = new SessionService();
-  const demoChargingSession = await sessionService.startSession(evseId);
-  // TODO save session to db with status pending
+  const chargingSession = await sessionService.startSession(evseId);
 
-  // 3. Put charge on folio (later in different action)
+  // 3. Save session in association with booking number (used for pending states later on)
+  const redisService = new RedisService();
+  redisService.set(reservation.bookingId, chargingSession.id);
+
+  // 4. Put charge on folio (in different action later on)
   const folioService = new FolioService();
   const folios = await folioService.getFoliosByReservationIds([reservation.id]);
   const folio = folios.folios[0];
@@ -85,14 +88,14 @@ export const startCharging = async (req: Request, res: Response) => {
     folioId: folio.id,
     amount: demoTariff.reservationAmount,
     currency: demoTariff.currency,
-    subject: `Wirelane Charging Session ${demoChargingSession.id} at ${evseId} on 2021-03-25 at 2.37 pm - Tariff: €${demoTariff.pricePerKwh}/kWh`,
+    subject: `Wirelane Charging Session ${chargingSession.id} at ${evseId} on 2021-03-25 at 2.37 pm - Tariff: €${demoTariff.pricePerKwh}/kWh`,
   });
 
   res.json({
     reservationId: reservation.id,
     folioId: folio.id,
     chargeId: charge.id,
-    chargingSession: demoChargingSession,
+    chargingSession: chargingSession,
   });
 };
 
@@ -122,22 +125,32 @@ export const stopCharging = async (req: Request, res: Response) => {
     });
   }
 
-  // 2. Stop charging session
-  const sessionService = new SessionService();
-  const demoChargingSession = await sessionService.stopSession(chargingSessionId);
+  // 2. Validate session ID
+  const redisService = new RedisService()
+  const savedChargingSessionId = await redisService.get(bookingNumber);
+
+  if (chargingSessionId != savedChargingSessionId) {
+    return res.status(400).json({
+      error: `The provided charging session id ${chargingSessionId} is invalid.`,
+    });
+  }
+
+  // 3. Stop charging session
+  const sessionService = new SessionService()
+  const chargingSession = await sessionService.stopSession(chargingSessionId);
   
-  // 3. Put allowance onto folio 
+  // 4. Put allowance onto folio 
   const folioService = new FolioService();
   const allowance = await folioService.postAllowanceToFolioAndCharge({
     chargeId: chargeId,
     folioId: folioId,
-    amount: demoTariff.reservationAmount - demoChargingSession.price,
+    amount: demoTariff.reservationAmount - chargingSession.price,
     currency: demoTariff.currency,
-    subject: `Wirelane Charging Session ${demoChargingSession.id} at ${evseId} on 2021-03-25 at 2.37 pm - Ended on 2021-03-25 at 5.07 pm - ${demoChargingSession.kWh} kWh * €${demoTariff.pricePerKwh} = €${demoChargingSession.price}`,
+    subject: `Wirelane Charging Session ${chargingSession.id} at ${evseId} on 2021-03-25 at 2.37 pm - Ended on 2021-03-25 at 5.07 pm - ${chargingSession.kWh} kWh * €${demoTariff.pricePerKwh} = €${chargingSession.price}`,
   });
 
   res.json({
     allowanceId: allowance.id,
-    chargingSession: demoChargingSession,
+    chargingSession: chargingSession,
   });
 };

@@ -3,6 +3,11 @@
   "logo": "https://github.com/wirelane/devrupt-hospitality/raw/main/public/images/wirelane-1024.png",
   "description": "Wirelane <-> Apaleo integration for the devrupt hospitality hackathon.",
   "repository": "https://github.com/wirelane/devrupt-hospitality.git",
+  "addons": [
+    {
+      "plan": "heroku-redis:hobby-dev"
+    }
+  ],
   "env": {
     "APALEO_BASE_URL": {
       "description": "Apaleo API URL",

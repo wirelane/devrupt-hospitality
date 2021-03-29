@@ -1,6 +1,5 @@
 import {
   ApaleoBookingAPI,
-  ReservationModel,
   ReservationItemModel,
   ReservationListModel,
 } from '../../../clients/apaleo/booking/client';

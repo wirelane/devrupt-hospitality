@@ -4,6 +4,7 @@ import {
   Hotel,
   Tariff
 } from "../models/model"
+import { v4 as uuidv4 } from "uuid";
 
 const wirelane: Hotel = {
   title: 'Wirelane',
@@ -61,7 +62,7 @@ export const demoTariff: Tariff = {
 }
 
 export const demoChargingSession: ChargingSession = {
-  id: 'a22bd0eb',
+  id: uuidv4(),
   duration: 150,
   price: 10.45,
   currency: 'EUR',
