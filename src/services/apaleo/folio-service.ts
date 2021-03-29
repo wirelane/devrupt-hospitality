@@ -5,13 +5,13 @@ import {
   AddedChargeModel,
   CreateAllowanceForChargeModel,
   CreatedSubResourceIdModel
-} from '../../clients/apaleo/finance/client';
+} from '../../../clients/apaleo/finance/client';
 import {
   Charge,
   Allowance
-} from '../controllers/home'; // ouch, import from controller :(
-import { ApaleoOauth } from '../../clients/apaleo/apaleo-oauth';
-import config from '../config';
+} from '../../models/model';
+import { ApaleoOauth } from '../../../clients/apaleo/apaleo-oauth';
+import config from '../../config';
 
 export class FolioService {
   private readonly apiClient = new ApaleoFinanceAPI(

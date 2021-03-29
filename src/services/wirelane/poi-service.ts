@@ -1,9 +1,9 @@
 import {
   ChargingPoint,
   WirelaneAPI,
-} from '../../clients/wirelane/client';
-import config from '../config';
-import { WirelaneOauth } from '../../clients/wirelane/wirelane-oauth';
+} from '../../../clients/wirelane/client';
+import config from '../../config';
+import { WirelaneOauth } from '../../../clients/wirelane/wirelane-oauth';
 
 export class PoiService {
   private readonly apiClient = new WirelaneAPI(
@@ -21,5 +21,14 @@ export class PoiService {
     } catch (error) {
       console.log('getPoiInformation', error);
     }
+  }
+
+  // initiates a remote start for the CP at evseid
+  public async startSession(evseid: string): Promise<any> {
+
+  }
+
+  public async stopSession(evseid: string): Promise<any> {
+    
   }
 }

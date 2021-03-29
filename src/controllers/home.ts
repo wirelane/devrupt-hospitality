@@ -1,117 +1,25 @@
 import { Request, Response } from 'express';
-import { ReservationService } from '../services/reservation-service';
-import { FolioService } from '../services/folio-service';
-import { PoiService } from '../services/poi-service';
+import { FolioService } from '../services/apaleo/folio-service';
+import { PoiService } from '../services/wirelane/poi-service';
+import { ReservationService } from '../services/apaleo/reservation-service';
+import { SessionService } from '../services/wirelane/session-service';
 
-interface Hotel {
-  title: string,
-  identifier: string,
-  termsAndConditionsUrl: string,
-  dataPrivacyUrl: string
-}
+import {
+  chargingPoints,
+  demoChargingSession,
+  demoTariff
+} from '../data/data';
 
-interface ChargingPoint {
-  evseId: string,
-  hotel: Hotel
-}
-
-export interface Charge {
-  folioId: string,
-  amount: number,
-  currency: string,
-  subject: string
-}
-
-export interface Allowance {
-  chargeId: string,
-  folioId: string,
-  amount: number,
-  currency: string,
-  subject: string
-}
-
-export interface Tariff {
-  name: string,
-  reservationAmount: number,
-  pricePerKwh: number,
-  currency: string,
-}
-
-export interface ChargingSession {
-  id: string,
-  duration: number,
-  price: number,
-  currency: string,
-  kWh: number
-}
-
-const wirelane: Hotel = {
-  title: 'Wirelane',
-  identifier: 'wirelane',
-  termsAndConditionsUrl: 'https://www.wirelane.com/de/nutzungsbedingungen/',
-  dataPrivacyUrl: 'https://www.wirelane.com/datenschutzerklaerung/'
-}
-
-const wirelane_staging: Hotel = {
-  title: 'Wirelane (Staging)',
-  identifier: 'wirelane',
-  termsAndConditionsUrl: 'https://www.wirelane.com/de/nutzungsbedingungen/',
-  dataPrivacyUrl: 'https://www.wirelane.com/datenschutzerklaerung/'
-}
-
-const maseven: Hotel = {
-  title: 'MASEVEN',
-  identifier: 'maseven',
-  termsAndConditionsUrl: 'https://www.maseven.de/wp-content/uploads/2020/10/terms_of_conditions-1.pdf',
-  dataPrivacyUrl: 'https://www.maseven.de/en/privacy-policy/'
-}
-
-const maseven1: ChargingPoint = {
-  evseId: 'DE*WLN*E0004457',
-  hotel: maseven
-}
-
-const maseven2: ChargingPoint = {
-  evseId: 'DE*WLN*E12345678',
-  hotel: maseven
-}
-
-const wirelane1: ChargingPoint = {
-  evseId: 'DE*WLN*E0123456',
-  hotel: wirelane
-}
-
-const wirelane2: ChargingPoint = {
-  evseId: 'DELNDE000210',
-  hotel: wirelane_staging
-}
-
-const chargingPoints: { [key: string]: ChargingPoint } = {
-  'DE*WLN*E0004457': maseven1, // production
-  'DE*WLN*E0123456': wirelane1, // production
-  'DEWLNE84064999': wirelane2, // staging
-  'DE*WLN*E12345678': maseven2 //staging
-}
-
-const demoTariff: Tariff = {
-  name: 'Hotel Charging',
-  reservationAmount: 50,
-  pricePerKwh: 0.38,
-  currency: 'EUR'
-}
-
-const demoChargingSession: ChargingSession = {
-  id: 'a22bd0eb',
-  duration: 150,
-  price: 10.45,
-  currency: 'EUR',
-  kWh: 27.5
-}
-
+/**
+ * @route GET /
+ */
 export const indexEvseId = (req: Request, res: Response) => {
   res.render('index.pug', { listing: chargingPoints });
 };
 
+/**
+ * @route GET /evseid/:evseid
+ */
 export const showEvseId = async (req: Request, res: Response) => {
   const evseId = req.params.evseId;
   console.log('Retrieve details for EVSEID', evseId);
@@ -134,6 +42,9 @@ export const showEvseId = async (req: Request, res: Response) => {
   });
 };
 
+/**
+ * @route POST /evseid/:evseid/start
+ */
 export const startCharging = async (req: Request, res: Response) => {
   const evseId = req.params.evseId;
   const bookingNumber = req.body.bookingNumber?.toUpperCase();
@@ -162,7 +73,11 @@ export const startCharging = async (req: Request, res: Response) => {
   }
 
   // 2. Start session
-  // TODO
+  const sessionService = new SessionService();
+  const session = await sessionService.startSession(evseId);
+
+  // Session (initiated, pending, active, closed)
+  // TODO save session to db with status pending
 
   // 3. Put charge on folio (later in different action)
   const folioService = new FolioService();
@@ -184,6 +99,9 @@ export const startCharging = async (req: Request, res: Response) => {
   });
 };
 
+/**
+ * @route POST /evseid/:evseid/stop
+ */
 export const stopCharging = async (req: Request, res: Response) => {
   const evseId = req.params.evseId;
   const bookingNumber = req.body.bookingNumber;
@@ -207,6 +125,11 @@ export const stopCharging = async (req: Request, res: Response) => {
     });
   }
 
+  // 2. Stop charging session
+  const sessionService = new SessionService();
+  const session = await sessionService.stopSession(evseId);
+  
+  // 3. Put allowance onto folio 
   const folioService = new FolioService();
   const allowance = await folioService.postAllowanceToFolioAndCharge({
     chargeId: chargeId,
