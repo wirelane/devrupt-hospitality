@@ -17,7 +17,7 @@ The password can be retrieved from [Bastian Konetzny](https://github.com/bkonetz
 
 ### Demonstration
 
-A working demonstration can be found under [https://wirelane-devrupt-hospitality.herokuapp.com](https://wirelane-devrupt-hospitality.herokuapp.com). Alternatively, the following QR code can be scanned and it directs to one of the charging stations within the demo:
+A working demonstration can be found under [https://wirelane-devrupt-hospitality.herokuapp.com](https://wirelane-devrupt-hospitality.herokuapp.com). Alternatively, the following QR code can be scanned and it directs to one of the charging stations within the demo. A valid booking number is `UZLKTPQB`.
 
 ![QR Code](https://github.com/wirelane/devrupt-hospitality/raw/main/public/images/qr.png)
 

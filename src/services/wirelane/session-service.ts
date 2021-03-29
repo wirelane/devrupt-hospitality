@@ -13,8 +13,8 @@ export class SessionService {
     config.WIRELANE_BASE_URL
   );
 
-  // initiates a remote start for the CP at evseid
   public async startSession(evseid: string): Promise<ChargingSession> {
+    // TODO: use Wirelane API client to start the session
     return new Promise((resolve, reject) => {
       // Mocked Response
       resolve(demoChargingSession);
@@ -22,6 +22,7 @@ export class SessionService {
   }
 
   public async stopSession(sessionId: string): Promise<ChargingSession> {
+    // TODO: use Wirelane API client to stop the session
     return new Promise((resolve, reject) => {
       // Mocked Response
       resolve(demoChargingSession);

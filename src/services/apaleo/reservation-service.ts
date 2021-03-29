@@ -13,18 +13,6 @@ export class ReservationService {
     config.APALEO_BASE_URL
   );
 
-  public async getReservationById(id: string): Promise<ReservationModel> {
-    try {
-      const result = await this.apiClient.bookingReservationsByIdGet(id);
-
-      console.log('getReservationById', result._response.parsedBody);
-
-      return result._response.parsedBody;
-    } catch (error) {
-      console.log('getReservationById', error);
-    }
-  }
-
   public async getReservationsByBookingNumber(bookingNumber: string): Promise<ReservationListModel> {
     console.log('getReservationsByBookingNumber', bookingNumber);
 
