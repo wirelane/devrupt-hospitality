@@ -1,5 +1,5 @@
 import fs from 'fs';
-const jwt = require('jsonwebtoken');
+import jwt from 'jsonwebtoken';
 import config from '../config';
 
 export class MapKit {
