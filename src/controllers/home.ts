@@ -6,7 +6,6 @@ import { SessionService } from '../services/wirelane/session-service';
 
 import {
   chargingPoints,
-  demoChargingSession,
   demoTariff
 } from '../data/data';
 
@@ -74,7 +73,7 @@ export const startCharging = async (req: Request, res: Response) => {
 
   // 2. Start session
   const sessionService = new SessionService();
-  const session = await sessionService.startSession(evseId);
+  const demoChargingSession = await sessionService.startSession(evseId);
 
   // Session (initiated, pending, active, closed)
   // TODO save session to db with status pending
@@ -127,7 +126,7 @@ export const stopCharging = async (req: Request, res: Response) => {
 
   // 2. Stop charging session
   const sessionService = new SessionService();
-  const session = await sessionService.stopSession(evseId);
+  const demoChargingSession = await sessionService.stopSession(evseId);
   
   // 3. Put allowance onto folio 
   const folioService = new FolioService();
