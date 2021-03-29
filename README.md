@@ -41,3 +41,7 @@ You can deploy this project directly to Heroku with the following button:
 * Booking API: For booking number based authentication.
 * Finance API: For looking up matching folio and to post the charges to the users invoice.
 * Inventory API: For looking up matching room numbers. (not in use right now)
+
+### Used Wirelane APIs
+
+* Organizations Charge Points API: For getting live data about the charging point status.
