@@ -4,7 +4,7 @@
 
 ## Business Case
 
-As a hotel owner, I want my guests to be able to charge their electric vehicles (EV) regardless of any membership with electric mobility providers (EMP) or direct payment options. Guests should be able pay for the charging service together with the hotel invoice.
+As a hotel owner, I want my guests to be able to charge their electric vehicles (EV) regardless of any membership with electric mobility providers (EMP) or direct payment options. Guests should be able to pay for the charging service together with the hotel invoice.
 
 With the Wirelane <-> Apaleo integration, the guest can initiate a charging session by scanning the QR code at the charging station and providing the booking reference.
 
