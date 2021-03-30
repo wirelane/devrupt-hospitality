@@ -13,6 +13,7 @@ export class SessionService {
 
   public startSession(evseid: string): Promise<ChargingSession> {
     // TODO: use Wirelane API client to start the session
+    // The session will be started using a synchronized call with a timeout of 30 seconds.
     return new Promise((resolve, reject) => {
       // Mocked Response
       // This part of the Wirelane API is not yet public.

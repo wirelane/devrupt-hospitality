@@ -40,6 +40,7 @@ Execute `docker-compose up` to start the server.
 
 #### Requirements
 - Docker or Node.js 14.x
+- Redis
 
 #### Heroku
 You can deploy this project directly to Heroku with the following button:
