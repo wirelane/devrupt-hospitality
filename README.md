@@ -12,7 +12,7 @@ The hotel invoice then lists all charging sessions together with all other servi
 
 ### Video
 
-[![Demo Video](https://github.com/wirelane/devrupt-hospitality/raw/main/public/images/video.png)](https://wirelane-my.sharepoint.com/:v:/p/chris_blaettermann/EWxuK35pr1xMgtCwSY5b85QB4gRnoh3A7p9mQy4IJNXULA?e=QEfWSr)
+[![Demo Video](https://github.com/wirelane/devrupt-hospitality/raw/main/public/images/video.png)](https://wirelane-my.sharepoint.com/:v:/p/chris_blaettermann/EWxuK35pr1xMgtCwSY5b85QB4gRnoh3A7p9mQy4IJNXULA?e=ot7vhS)
 The password can be retrieved from [Bastian Konetzny](https://github.com/bkonetzny) or [Chris Blättermann](https://github.com/chrblabla).
 
 ### Demonstration
@@ -57,3 +57,8 @@ You can deploy this project directly to Heroku with the following button:
 ### Used Wirelane APIs
 
 * Organizations Charge Points API: For getting live data about the charging point status.
+
+## Contributors
+* Andreas Grundler
+* [Bastian Konetzny](https://github.com/bkonetzny)
+* [Chris Blättermann](https://github.com/chrblabla)
