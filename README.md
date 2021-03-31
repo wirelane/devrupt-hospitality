@@ -10,10 +10,12 @@ With the Wirelane <-> Apaleo integration, the guest can initiate a charging sess
 
 The hotel invoice then lists all charging sessions together with all other services consumed during the stay.
 
-### Video
+### Videos
+
+In order to introduce the problem and the solution, we recorded a [pitch](https://wirelane-my.sharepoint.com/:v:/p/chris_blaettermann/ESzkZfLDzuhJhDiTc1_WwjYBzl8EL6iE3mNQGtbmh9CFcg?e=kRaV1h).
 
 [![Demo Video](https://github.com/wirelane/devrupt-hospitality/raw/main/public/images/video.png)](https://wirelane-my.sharepoint.com/:v:/p/chris_blaettermann/EWxuK35pr1xMgtCwSY5b85QB4gRnoh3A7p9mQy4IJNXULA?e=ot7vhS)
-The password can be retrieved from [Bastian Konetzny](https://github.com/bkonetzny) or [Chris Blättermann](https://github.com/chrblabla).
+The password can be retrieved from [Chris Blättermann](https://github.com/chrblabla).
 
 ### Demonstration
 
