@@ -12,9 +12,9 @@ The hotel invoice then lists all charging sessions together with all other servi
 
 ### Videos
 
-In order to introduce the problem and the solution, we recorded a [pitch](https://wirelane-my.sharepoint.com/:v:/p/chris_blaettermann/ESzkZfLDzuhJhDiTc1_WwjYBzl8EL6iE3mNQGtbmh9CFcg?e=kRaV1h) and a [demo](https://wirelane-my.sharepoint.com/:v:/p/chris_blaettermann/EWxuK35pr1xMgtCwSY5b85QB4gRnoh3A7p9mQy4IJNXULA?e=ot7vhS). The password can be retrieved from [Chris Blättermann](https://github.com/chrblabla).
+In order to introduce the problem and the solution, we recorded a [pitch](https://github.com/wirelane/devrupt-hospitality/blob/main/public/videos/Wirelane%20@%20DEVrupt%20Hospitality%20-%20Pitch.mp4?raw=true) and a [demo](https://github.com/wirelane/devrupt-hospitality/blob/main/public/videos/Wirelane%20@%20DEVrupt%20Hospitality%20-%20Demo.mp4?raw=true).
 
-[![Demo Video](https://github.com/wirelane/devrupt-hospitality/raw/main/public/images/video.png)](https://wirelane-my.sharepoint.com/:v:/p/chris_blaettermann/EWxuK35pr1xMgtCwSY5b85QB4gRnoh3A7p9mQy4IJNXULA?e=ot7vhS)
+[![Demo Video](https://github.com/wirelane/devrupt-hospitality/raw/main/public/images/video.png)](https://github.com/wirelane/devrupt-hospitality/blob/main/public/videos/Wirelane%20@%20DEVrupt%20Hospitality%20-%20Demo.mp4?raw=true)
 
 ### Demonstration
 
@@ -24,7 +24,7 @@ A working demonstration can be found under [https://wirelane-devrupt-hospitality
 
 ## Technical Solution
 
-As basis for this solution, the [apaleo/node-boilerplate](https://github.com/apaleo/node-boilerplate) is being used.  Here, the Apaleo API and the Wirelane API are being connected in order to realize the use case described above. 
+As basis for this solution, the [apaleo/node-boilerplate](https://github.com/apaleo/node-boilerplate) is being used.  Here, the Apaleo API and the Wirelane API are being connected in order to realize the use case described above.
 
 ### Development
 
