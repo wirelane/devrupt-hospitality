@@ -16,6 +16,10 @@ a {
   color: rgb(172, 34, 32);
 }
 
+a:hover {
+  color: black;
+}
+
 .btn-primary, .btn-primary:hover {
   background-color: rgb(172, 34, 32);
   border-color: rgb(172, 34, 32);

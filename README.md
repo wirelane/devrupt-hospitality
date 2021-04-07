@@ -29,7 +29,7 @@ As basis for this solution, the [apaleo/node-boilerplate](https://github.com/apa
 ### Development
 
 #### Requirements
-- Docker
+*   Docker
 
 #### Setup
 Copy the `.env.example` to `.env` and fill in all the required information.
@@ -40,8 +40,8 @@ Execute `docker-compose up` to start the server.
 ### Deployment
 
 #### Requirements
-- Docker or Node.js 14.x
-- Redis
+*   Docker or Node.js 14.x
+*   Redis
 
 #### Heroku
 You can deploy this project directly to Heroku with the following button:
@@ -52,14 +52,17 @@ You can deploy this project directly to Heroku with the following button:
 
 ### Used Apaleo APIs
 
-* Booking API: For booking number based authentication.
-* Finance API: For looking up matching folio and to post the charges to the users invoice.
+*   Booking API: For booking number based authentication.
+*   Finance API: For looking up matching folio and to post the charges to the users invoice.
 
 ### Used Wirelane APIs
 
-* Organizations Charge Points API: For getting live data about the charging point status.
+*   Organizations Charge Points API: For getting live data about the charging point status.
 
 ## Contributors
-* Andreas Grundler
-* [Bastian Konetzny](https://github.com/bkonetzny)
-* [Chris Blättermann](https://github.com/chrblabla)
+*   Andreas Grundler
+*   [Bastian Konetzny](https://github.com/bkonetzny)
+*   [Chris Blättermann](https://github.com/chrblabla)
+
+# TODO
+*   I18n

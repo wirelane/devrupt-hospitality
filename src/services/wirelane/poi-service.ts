@@ -4,6 +4,7 @@ import {
 } from '../../../clients/wirelane/client';
 import config from '../../config';
 import { WirelaneOauth } from '../../../clients/wirelane/wirelane-oauth';
+import { HotelChargingPoint } from '../../models/model';
 
 export class PoiService {
   private readonly apiClient = new WirelaneAPI(
@@ -20,6 +21,14 @@ export class PoiService {
       return result._response.parsedBody;
     } catch (error) {
       console.log('getPoiInformation', error);
+    }
+  }
+
+  public getLocalPoiInformation(evseid: string, hotelChargingPoints: Array<HotelChargingPoint>): HotelChargingPoint {
+    for (let chargingPoint of hotelChargingPoints) {
+      if (chargingPoint.evseid == evseid) {
+        return chargingPoint;
+      }
     }
   }
 }

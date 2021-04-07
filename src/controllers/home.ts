@@ -5,7 +5,7 @@ import { ReservationService } from '../services/apaleo/reservation-service';
 import { SessionService } from '../services/wirelane/session-service';
 import { RedisService } from '../services/redis-service';
 import {
-  chargingPoints,
+  hotelChargingPoints,
   demoTariff
 } from '../data/data';
 
@@ -13,31 +13,30 @@ import {
  * @route GET /
  */
 export const indexEvseId = async (req: Request, res: Response) => {
-  res.render('index.pug', { listing: chargingPoints });
+  res.render('index.pug', { listing: hotelChargingPoints });
 };
 
 /**
  * @route GET /evseid/:evseid
  */
 export const showEvseId = async (req: Request, res: Response) => {
-  const evseId = req.params.evseId;
-  console.log('Retrieve details for EVSEID', evseId);
-
-  const chargingPoint = chargingPoints[evseId];
+  const evseid = req.params.evseId;
+  console.log('Retrieve details for EVSEID', evseid);
 
   const poiService = new PoiService();
-  const poiInformation = await poiService.getPoiInformation('DEWLN', evseId);
+  //const chargingPoint = await poiService.getPoiInformation('DEWLN', evseid);
+  const chargingPoint = poiService.getLocalPoiInformation(evseid, hotelChargingPoints);
 
-  if (!poiInformation) {
+  if (!chargingPoint) {
     return res.json({
-      error: `ChargePoint ${evseId} not found.`,
+      error: `ChargePoint ${evseid} not found.`,
     });
   }
 
-  res.render('template.pug', {
+  res.render('template.de.pug', {
     tenant: chargingPoint.hotel,
     tariff: demoTariff,
-    poi: poiInformation,
+    poi: chargingPoint,
   });
 };
 
@@ -140,8 +139,8 @@ export const stopCharging = async (req: Request, res: Response) => {
   const chargingSession = await sessionService.stopSession(chargingSessionId);
 
   redisService.del(bookingNumber);
-  
-  // 4. Put allowance onto folio 
+
+  // 4. Put allowance onto folio
   const folioService = new FolioService();
   const allowance = await folioService.postAllowanceToFolioAndCharge({
     chargeId: chargeId,

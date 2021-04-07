@@ -1,3 +1,5 @@
+import { ChargingPoint } from '../../clients/wirelane/client'
+
 export interface Hotel {
   title: string,
   identifier: string,
@@ -5,8 +7,12 @@ export interface Hotel {
   dataPrivacyUrl: string
 }
 
-export interface ChargingPoint {
-  evseId: string,
+// export interface ChargingPoint {
+//   evseId: string,
+//   hotel: Hotel
+// }
+
+export interface HotelChargingPoint extends ChargingPoint {
   hotel: Hotel
 }
 
