@@ -11,29 +11,32 @@ html
     nav.navbar
       .container
         a.navbar-brand(href="#")
-          img.d-inline-block-align-top(src="/images/" + tenant.identifier + ".png" alt="" width="32" height="32")
-          = tenant.title
-        a.language(href="#")
-          i.bi.bi-globe2
-          |
-          | EN
+          img.d-inline-block-align-top(src="/images/" + tenant.identifier + ".png" alt=tenant.title height="32")
+          span.title= tenant.title
 
+        .dropdown
+          button#dropdownMenuButton.btn.btn-secondary.dropdown-toggle(type="button" data-toggle="dropdown" aria-expanded="false")
+            i.bi.bi-globe2
+          ul.dropdown-menu(aria-labelledby="dropdownMenuButton")
+            li
+              a.dropdown-item(href="?lang=de") Deutsch
+            li
+              a.dropdown-item(href="?lang=en") English
+          
+  
     #map
 
     .container
-      h1 Laden. Zahlen. Fertig.
+      h1= __('CHARGEPAYDONE')
         |
         |
-        span.wirelane by Wirelane
+        span.wirelane= __('BYWIRELANE')
 
       #app
         section(v-if="activeSection === 'form'")
           p
-            | Lade Dein Auto einfach für
-            |
-            strong #{tariff.pricePerKwh} EUR/kWh ohne Startgebühr
-            |
-            | auf. Die Rechnung findest Du beim Checkout auf der Hotelrechnung.
+            | !{ __('CHARGEYOURCAR1', { price: '<strong>€' + tariff.pricePerKwh + '/kWh</strong>' } ) }
+            | #{ __('CHARGEYOURCAR2') }
           br
 
           .alert.alert-danger(role="alert" v-if="validationMessage.length")
@@ -51,44 +54,35 @@ html
 
           form(action="/evseId/" + poi.evseid + "/start" method="POST" @submit.prevent="submitStartForm")
             .mb-3
-              label.form-label(for="inputBookingNumber") Buchungsnummer
-              input#inputBookingNumber.form-control(name="bookingNumber" v-model="bookingNumber" aria-describedby="bookingNumberHelp" required="required" minlength="6")
-              #bookingNumberHelp.form-text Deine Buchungsnummer oder Reservierungsnummer.
+              label.form-label(for="inputBookingNumber")= __('BOOKINGNUMBER')
+              input#inputBookingNumber.form-control(name="bookingNumber" v-model="bookingNumber" aria-describedby="bookingNumberHelp" minlength="6")
+              #bookingNumberHelp.form-text= __('BOOKINGNUMBERHINT')
 
             .mb-3.form-check
-              input#tocCheck.form-check-input(type="checkbox" name="acceptedConditions" v-model="acceptedConditions" required="true")
+              input#tocCheck.form-check-input(type="checkbox" name="acceptedConditions" v-model="acceptedConditions")
               label.form-check-label(for="tocCheck")
-                | Ich akzeptiere die
+                | #{ __('IACCEPT') }
                 |
-                a(href=tenant.termsAndConditionsUrl target="_blank") AGB
+                a(href=tenant.termsAndConditionsUrl target="_blank")= __('TERMSANDCONDITIONS')
                 |
-                | and die
+                | #{ __('ANDTHE') }
                 |
-                a(href=tenant.dataPrivacyUrl target="_blank") Datenschutzbestimmungen
+                a(href=tenant.dataPrivacyUrl target="_blank")= __('PRIVACYPOLICY')
                 | .
 
-            button.btn.btn-primary(type="submit") Laden starten
+            button.btn.btn-primary(type="submit")= __('STARTCHARGING')
 
         section(v-if="activeSection === 'charging'")
           form(action="/evseId/" + poi.evseid + "/stop" method="POST" @submit.prevent="submitStopForm")
             .alert.alert-success(role="alert")
               i.bi.bi-check-circle
               p
-                |
-                | Charging session
-                |
-                strong {{ chargingSession.id }}
-                | 
-                | started on behalf of booking number
-                |
-                strong {{ bookingNumber }}
-                | .
+                | #{ __('CHARGINGSTARTED') }
                 br
                 br
-                | A reservation of €50 has been added to your room.
-                | Once the charging has finished, the correct amount will be applied.
+                | #{ __('CHARGEDROOM') }
 
-            button.btn.btn-primary(type="submit") Stop Charging
+            button.btn.btn-primary(type="submit")= __('STOPCHARGING')
 
         section(v-if="activeSection === 'receipt'")
           form(@submit="submitCloseForm")
@@ -115,6 +109,9 @@ html
             i.bi.bi-battery-charging
   
     script(src="https://unpkg.com/vue@next")
+    script(src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous")
+    script(src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous")
+    script(src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous")
     script(src="https://cdn.apple-mapkit.com/mk/5.x.x/mapkit.js")
     script(src="/js/app.js")
     script(src="/js/map.js")

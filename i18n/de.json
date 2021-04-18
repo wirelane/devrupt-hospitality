@@ -1,0 +1,17 @@
+{
+	"CHARGEPAYDONE": "Laden. Zahlen. Fertig.",
+	"BYWIRELANE": "by Wirelane",
+	"CHARGEYOURCAR1": "Lade Dein Auto einfach für {{{price}}} auf.",
+  "CHARGEYOURCAR2": "Die Rechnung findest Du beim Checkout auf der Hotelrechnung.",
+  "BOOKINGNUMBER": "Buchungsnummer",
+  "BOOKINGNUMBERHINT": "Deine Buchungsnummer oder Reservierungsnummer.",
+  "IACCEPT": "Ich akzeptiere die",
+	"PRIVACYPOLICY": "Datenschutzbestimmungen",
+	"ANDTHE": "und die",
+  "TERMSANDCONDITIONS": "AGB",
+  "STARTCHARGING": "Laden starten",
+  "STOPCHARGING": "Laden stoppen",
+  "BOOKINGNUMBERREQUIRED": "Bitte gib deine Buchungsnummer ein.",
+  "CHARGINGSTARTED": "Ladevorgang in Verbindung mit Buchungsnummer gestartet.",
+  "CHARGEDROOM": "Deine Zimmerrechnung wurde mit einer Reservierung über €50 versehen. Sobald der Ladevorgang beendet wurde, wird der korrekte Endbetrag berechnet und die Reservierung aufgehoben."
+}

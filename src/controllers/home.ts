@@ -6,8 +6,10 @@ import { SessionService } from '../services/wirelane/session-service';
 import { RedisService } from '../services/redis-service';
 import {
   hotelChargingPoints,
-  demoTariff
+  demoTariff,
+  demoChargingSession
 } from '../data/data';
+import { __ } from 'i18n';
 
 /**
  * @route GET /
@@ -33,10 +35,14 @@ export const showEvseId = async (req: Request, res: Response) => {
     });
   }
 
-  res.render('template.de.pug', {
+  //const template = 'template.' + req.getLocale() + '.pug'
+
+  res.render('evse.pug', {
     tenant: chargingPoint.hotel,
     tariff: demoTariff,
     poi: chargingPoint,
+    bookingNumber: '',
+    chargingSession: demoChargingSession
   });
 };
 
@@ -50,7 +56,7 @@ export const startCharging = async (req: Request, res: Response) => {
 
   if (!bookingNumber) {
     return res.status(400).json({
-      error: 'Please enter your booking number.',
+      error: __('BOOKINGNUMBERREQUIRED'),
     });
   }
 
@@ -87,7 +93,8 @@ export const startCharging = async (req: Request, res: Response) => {
     folioId: folio.id,
     amount: demoTariff.reservationAmount,
     currency: demoTariff.currency,
-    subject: `Wirelane Charging Session ${chargingSession.id} at ${evseId} on 2021-03-25 at 2.37 pm - Tariff: €${demoTariff.pricePerKwh}/kWh`,
+    //subject: `Wirelane Charging Session ${chargingSession.id} at ${evseId} on 2021-03-25 at 2.37 pm - Tariff: €${demoTariff.pricePerKwh}/kWh`,
+    subject: `Wirelane Charging Session: 33,4 kWh * €${demoTariff.pricePerKwh} – wrln.de/maseven/123456”`
   });
 
   res.json({

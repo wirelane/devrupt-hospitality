@@ -21,7 +21,7 @@ a:hover {
   color: black;
 }
 
-.btn-primary, .btn-primary:hover {
+.btn-primary, .btn-primary:hover, .btn-secondary, .btn-secondary:hover {
   background-color: #9dc997;
   border-color: #9dc997;
   color: white;

@@ -35,6 +35,13 @@ const landhausandeduen: Hotel = {
   dataPrivacyUrl: 'https://www.hotel-landhaus.de/datenschutz.html'
 }
 
+const abasto: Hotel = {
+  title: 'Abasto',
+  identifier: 'abasto',
+  termsAndConditionsUrl: 'https://www.abasto-feldmoching.de/wp-content/uploads/2020/09/Abasto_Feldmoching_AGBs.pdf',
+  dataPrivacyUrl: 'https://www.abasto-feldmoching.de/en/privacy-policy/'
+}
+
 const landhausandeduen1: HotelChargingPoint = {
   evseid: 'DEWLNE84064999',
   hotel: landhausandeduen,
@@ -59,10 +66,19 @@ const wirelane1: HotelChargingPoint = {
   chargePointId: 'wirelane1'
 }
 
+const abasto1: HotelChargingPoint = {
+  evseid: 'DE*WLN*E1234567',
+  hotel: abasto,
+  latitude: 48.214175, 
+  longitude: 11.540730,
+  chargePointId: 'abasto1'
+}
+
 export const hotelChargingPoints: Array<HotelChargingPoint> = [
   landhausandeduen1,
   maseven1,
-  wirelane1
+  wirelane1,
+  abasto1
 ]
 //
 // const maseven1: ChargingPoint = {

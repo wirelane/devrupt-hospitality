@@ -22,7 +22,7 @@ a:hover {
   color: white;
 }
 
-.btn-primary, .btn-primary:hover {
+.btn-primary, .btn-primary:hover, .btn-secondary, .btn-secondary:hover {
   background-color: #ffec2d;
   border-color: #ffec2d;
   color: black;

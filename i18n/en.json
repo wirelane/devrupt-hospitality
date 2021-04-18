@@ -1,0 +1,17 @@
+{
+	"CHARGEPAYDONE": "Charge. Pay. Done.",
+	"BYWIRELANE": "by Wirelane",
+	"CHARGEYOURCAR1": "Easily charge your car for {{{price}}}.",
+  "CHARGEYOURCAR2": "The charges will occur on your hotel invoice upon checkout.",
+	"BOOKINGNUMBER": "Booking Number",
+	"BOOKINGNUMBERHINT": "Your booking number or reservation number.",
+	"IACCEPT": "I accept the",
+	"PRIVACYPOLICY": "privacy policy",
+	"ANDTHE": "and the",
+	"TERMSANDCONDITIONS": "terms and conditions",
+	"STARTCHARGING": "Start Charging",
+	"STOPCHARGING": "Stop Charging",
+	"BOOKINGNUMBERREQUIRED": "Please enter your booking number.",
+	"CHARGINGSTARTED": "Charging session started on behalf of your booking number.",
+	"CHARGEDROOM": "A reservation of €50 has been added to your room. Once the charging has finished, the correct amount will be applied."
+}

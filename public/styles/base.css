@@ -6,6 +6,10 @@ body {
   margin-right: 15px;
 }
 
+.navbar .dropdown-menu {
+  right: 0;
+}
+
 #map {
   width: 100%;
   height: 150px;
@@ -17,8 +21,11 @@ body {
   white-space: nowrap;
 }
 
-.language {
+span.languages {
   float: right;
+}
+
+span.languages a {
   text-decoration: none;
 }
 
