@@ -12,9 +12,9 @@ The hotel invoice then lists all charging sessions together with all other servi
 
 ### Videos
 
-In order to introduce the problem and the solution, we recorded a [pitch](https://github.com/wirelane/devrupt-hospitality/blob/main/public/videos/Wirelane%20@%20DEVrupt%20Hospitality%20-%20Pitch.mp4?raw=true) and a [demo](https://github.com/wirelane/devrupt-hospitality/blob/main/public/videos/Wirelane%20@%20DEVrupt%20Hospitality%20-%20Demo.mp4?raw=true).
+In order to introduce the problem and the solution, we recorded a [pitch](https://youtu.be/tsXNaNVyjPk) and a [demo](https://youtu.be/rwJya7vTPZs).
 
-[![Demo Video](https://github.com/wirelane/devrupt-hospitality/raw/main/public/images/video.png)](https://github.com/wirelane/devrupt-hospitality/blob/main/public/videos/Wirelane%20@%20DEVrupt%20Hospitality%20-%20Demo.mp4?raw=true)
+[![Demo Video](https://github.com/wirelane/devrupt-hospitality/raw/main/public/images/video.png)](https://youtu.be/rwJya7vTPZs)
 
 ### Demonstration
 
