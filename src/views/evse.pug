@@ -23,7 +23,6 @@ html
             li
               a.dropdown-item(href="?lang=en") English
           
-  
     #map
 
     .container
@@ -45,12 +44,12 @@ html
               | {{ validationMessage }}
               span(v-if="validationMessageShowHelpAddon")
                 if poi.serviceHotline
-                  | If you need assistance or feel this is a mistake, please
-                  |
-                  a.alert-link(href="tel:" + poi.serviceHotline) call #{poi.serviceHotline}
-                  | .
+                  | #{ __('ASSISTANCEPHONE') }
+                  br
+                  br
+                  a.alert-link(href="tel:" + poi.serviceHotline)= poi.serviceHotline
                 else
-                  | If you need assistance or feel this is a mistake, please see the frontdesk.
+                  | #{ __('ASSISTANCEDESK') }
 
           form(action="/evseId/" + poi.evseid + "/start" method="POST" @submit.prevent="submitStartForm")
             .mb-3
@@ -80,7 +79,7 @@ html
                 | #{ __('CHARGINGSTARTED') }
                 br
                 br
-                | #{ __('CHARGEDROOM') }
+                | #{ __('CHARGEDROOMONSTART') }
 
             button.btn.btn-primary(type="submit")= __('STOPCHARGING')
 
@@ -89,20 +88,12 @@ html
             .alert.alert-info(role="alert")
               i.bi.bi-receipt-cutoff
               p
-                |
-                | Charging session
-                |
-                strong {{ chargingSession.id }}
-                | 
-                | ended after {{ chargingSession.duration }} minutes on behalf of booking number
-                |
-                strong {{ bookingNumber }}
-                | .
+                | #{ __('CHARGINGENDED', { duration: '27' }) }
                 br
                 br
-                | A charge of {{ chargingSession.price }} EUR has been added to your room.
+                | #{ __('CHARGEDROOMONEND', { amount: '10.34' }) }
 
-            button.btn.btn-primary(type="submit") Close
+            button.btn.btn-primary(type="submit")= __('CLOSE')
         
         section(v-if="activeSection === 'loading'")
           p.loading

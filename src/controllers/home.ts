@@ -62,7 +62,7 @@ export const startCharging = async (req: Request, res: Response) => {
 
   if (!acceptedConditions) {
     return res.status(400).json({
-      error: 'You need to accept the conditions to continue.',
+      error: __('TACREQUIRED'),
     });
   }
 
@@ -72,7 +72,7 @@ export const startCharging = async (req: Request, res: Response) => {
 
   if (!reservation) {
     return res.status(404).json({
-      error: `The entered booking number ${bookingNumber} could not be found.`,
+      error: __('BOOKINGNUMBERNOTFOUND', { bookingNumber: bookingNumber }),
     });
   }
 
@@ -127,7 +127,7 @@ export const stopCharging = async (req: Request, res: Response) => {
 
   if (!reservation) {
     return res.status(404).json({
-      error: `The entered booking number ${bookingNumber} could not be found.`,
+      error: __('BOOKINGNUMBERNOTFOUND', { bookingNumber: bookingNumber }),
     });
   }
 

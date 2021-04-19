@@ -1,5 +1,4 @@
 // @ts-check
-
 const HotelCharging = {
   data() {
     return {
@@ -17,16 +16,6 @@ const HotelCharging = {
     submitStartForm(event) {
       this.validationMessage = '';
       this.validationMessageShowHelpAddon = false;
-
-      if (!this.bookingNumber.length) {
-        this.validationMessage = 'Please enter your booking number.';
-        return;
-      }
-
-      if (!this.acceptedConditions) {
-        this.validationMessage = 'You need to accept the conditions to continue.';
-        return;
-      }
 
       this.activeSection = 'loading';
 
