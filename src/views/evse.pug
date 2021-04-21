@@ -88,7 +88,7 @@ html
             .alert.alert-info(role="alert")
               i.bi.bi-receipt-cutoff
               p
-                | #{ __('CHARGINGENDED', { duration: '27' }) }
+                | #{ __('CHARGINGENDED', { duration: chargingSession.duration }) }
                 br
                 br
                 | #{ __('CHARGEDROOMONEND', { amount: chargingSession.price }) }
