@@ -23,7 +23,10 @@ function setChargingPoint(chargingPoint) {
       color: "black",
       title: chargingPoint.evseId,
       subtitle: "Charging Station by Wirelane",
-      glyphImage: { 1: "/images/logo-20.png" }
+      glyphImage: { 
+        1: "/images/logo-20.png",
+        2: "/images/logo-20@2x.png",
+      }
     }
   );
 
