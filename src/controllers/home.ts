@@ -35,8 +35,6 @@ export const showEvseId = async (req: Request, res: Response) => {
     });
   }
 
-  //const template = 'template.' + req.getLocale() + '.pug'
-
   res.render('evse.pug', {
     tenant: chargingPoint.hotel,
     tariff: demoTariff,
