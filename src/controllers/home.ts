@@ -94,7 +94,7 @@ export const startCharging = async (req: Request, res: Response) => {
     amount: demoTariff.reservationAmount,
     currency: demoTariff.currency,
     //subject: `Wirelane Charging Session ${chargingSession.id} at ${evseId} on 2021-03-25 at 2.37 pm - Tariff: €${demoTariff.pricePerKwh}/kWh`,
-    subject: `Wirelane Charging Session: 33,4 kWh * €${demoTariff.pricePerKwh} – wrln.de/maseven/123456”`
+    subject: `Wirelane Charging Session: ${chargingSession.kWh} kWh * €${demoTariff.pricePerKwh} – wrln.de/${chargingSession.id.substring(0, 8)}`
   });
 
   res.json({
