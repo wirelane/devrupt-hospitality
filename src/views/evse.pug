@@ -91,7 +91,7 @@ html
                 | #{ __('CHARGINGENDED', { duration: '27' }) }
                 br
                 br
-                | #{ __('CHARGEDROOMONEND', { amount: '10.34' }) }
+                | #{ __('CHARGEDROOMONEND', { amount: chargingSession.price }) }
 
             button.btn.btn-primary(type="submit")= __('CLOSE')
         
