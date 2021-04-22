@@ -6,6 +6,10 @@ body {
   margin-right: 15px;
 }
 
+.navbar .dropdown-menu {
+  right: 0;
+}
+
 #map {
   width: 100%;
   height: 150px;
@@ -14,6 +18,15 @@ body {
 
 .wirelane {
   font-size: 0.5em;
+  white-space: nowrap;
+}
+
+span.languages {
+  float: right;
+}
+
+span.languages a {
+  text-decoration: none;
 }
 
 button[type=submit] {

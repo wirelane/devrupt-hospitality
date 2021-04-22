@@ -18,7 +18,11 @@ a {
   color: #ffec2d;
 }
 
-.btn-primary, .btn-primary:hover {
+a:hover {
+  color: white;
+}
+
+.btn-primary, .btn-primary:hover, .btn-secondary, .btn-secondary:hover {
   background-color: #ffec2d;
   border-color: #ffec2d;
   color: black;

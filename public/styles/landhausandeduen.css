@@ -1,0 +1,33 @@
+@font-face {
+  font-family: RalewayLight;
+  src: url(../fonts/Raleway-Light.ttf);
+}
+
+body {
+  font-family: RalewayLight;
+  background-color: rgb(244, 241, 238);
+}
+
+.navbar {
+  background-color: rgb(244, 241, 238) !important;
+  color: rgb(78, 70, 75);
+}
+
+a {
+  color: #9dc997;
+}
+
+a:hover {
+  color: black;
+}
+
+.btn-primary, .btn-primary:hover, .btn-secondary, .btn-secondary:hover {
+  background-color: #9dc997;
+  border-color: #9dc997;
+  color: white;
+}
+
+@keyframes color_change {
+	from { color: rgb(244, 241, 238); }
+	to { color: #9dc997; }
+}

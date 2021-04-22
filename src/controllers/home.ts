@@ -5,39 +5,42 @@ import { ReservationService } from '../services/apaleo/reservation-service';
 import { SessionService } from '../services/wirelane/session-service';
 import { RedisService } from '../services/redis-service';
 import {
-  chargingPoints,
-  demoTariff
+  hotelChargingPoints,
+  demoTariff,
+  demoChargingSession
 } from '../data/data';
+import { __ } from 'i18n';
 
 /**
  * @route GET /
  */
 export const indexEvseId = async (req: Request, res: Response) => {
-  res.render('index.pug', { listing: chargingPoints });
+  res.render('index.pug', { listing: hotelChargingPoints });
 };
 
 /**
  * @route GET /evseid/:evseid
  */
 export const showEvseId = async (req: Request, res: Response) => {
-  const evseId = req.params.evseId;
-  console.log('Retrieve details for EVSEID', evseId);
-
-  const chargingPoint = chargingPoints[evseId];
+  const evseid = req.params.evseId;
+  console.log('Retrieve details for EVSEID', evseid);
 
   const poiService = new PoiService();
-  const poiInformation = await poiService.getPoiInformation('DEWLN', evseId);
+  //const chargingPoint = await poiService.getPoiInformation('DEWLN', evseid);
+  const chargingPoint = poiService.getLocalPoiInformation(evseid, hotelChargingPoints);
 
-  if (!poiInformation) {
+  if (!chargingPoint) {
     return res.json({
-      error: `ChargePoint ${evseId} not found.`,
+      error: `ChargePoint ${evseid} not found.`,
     });
   }
 
-  res.render('template.pug', {
+  res.render('evse.pug', {
     tenant: chargingPoint.hotel,
     tariff: demoTariff,
-    poi: poiInformation,
+    poi: chargingPoint,
+    bookingNumber: '',
+    chargingSession: demoChargingSession
   });
 };
 
@@ -51,13 +54,13 @@ export const startCharging = async (req: Request, res: Response) => {
 
   if (!bookingNumber) {
     return res.status(400).json({
-      error: 'Please enter your booking number.',
+      error: __('BOOKINGNUMBERREQUIRED'),
     });
   }
 
   if (!acceptedConditions) {
     return res.status(400).json({
-      error: 'You need to accept the conditions to continue.',
+      error: __('TACREQUIRED'),
     });
   }
 
@@ -67,7 +70,7 @@ export const startCharging = async (req: Request, res: Response) => {
 
   if (!reservation) {
     return res.status(404).json({
-      error: `The entered booking number ${bookingNumber} could not be found.`,
+      error: __('BOOKINGNUMBERNOTFOUND', { bookingNumber: bookingNumber }),
     });
   }
 
@@ -88,7 +91,9 @@ export const startCharging = async (req: Request, res: Response) => {
     folioId: folio.id,
     amount: demoTariff.reservationAmount,
     currency: demoTariff.currency,
-    subject: `Wirelane Charging Session ${chargingSession.id} at ${evseId} on 2021-03-25 at 2.37 pm - Tariff: €${demoTariff.pricePerKwh}/kWh`,
+    // TODO localize to target localization?
+    //subject: `Wirelane Charging Session: ${chargingSession.kWh} kWh * €${demoTariff.pricePerKwh} – wrln.de/${chargingSession.id.substring(0, 8)}`
+    subject: `Wirelane Charging Session €${demoTariff.pricePerKwh}/kWh – wrln.de/${chargingSession.id.substring(0, 8)}`
   });
 
   res.json({
@@ -103,7 +108,6 @@ export const startCharging = async (req: Request, res: Response) => {
  * @route POST /evseid/:evseid/stop
  */
 export const stopCharging = async (req: Request, res: Response) => {
-  const evseId = req.params.evseId;
   const bookingNumber = req.body.bookingNumber;
   const chargeId = req.body.chargeId;
   const folioId = req.body.folioId;
@@ -121,7 +125,7 @@ export const stopCharging = async (req: Request, res: Response) => {
 
   if (!reservation) {
     return res.status(404).json({
-      error: `The entered booking number ${bookingNumber} could not be found.`,
+      error: __('BOOKINGNUMBERNOTFOUND', { bookingNumber: bookingNumber }),
     });
   }
 
@@ -131,7 +135,7 @@ export const stopCharging = async (req: Request, res: Response) => {
 
   if (chargingSessionId != savedChargingSessionId) {
     return res.status(400).json({
-      error: `The provided charging session id ${chargingSessionId} is invalid.`,
+      error: __('INVALIDCHARGINGSESSIONID', { chargingSessionId: chargingSessionId }),
     });
   }
 
@@ -140,15 +144,15 @@ export const stopCharging = async (req: Request, res: Response) => {
   const chargingSession = await sessionService.stopSession(chargingSessionId);
 
   redisService.del(bookingNumber);
-  
-  // 4. Put allowance onto folio 
+
+  // 4. Put allowance onto folio
   const folioService = new FolioService();
   const allowance = await folioService.postAllowanceToFolioAndCharge({
     chargeId: chargeId,
     folioId: folioId,
     amount: demoTariff.reservationAmount - chargingSession.price,
     currency: demoTariff.currency,
-    subject: `Wirelane Charging Session ${chargingSession.id} at ${evseId} on 2021-03-25 at 2.37 pm - Ended on 2021-03-25 at 5.07 pm - ${chargingSession.kWh} kWh * €${demoTariff.pricePerKwh} = €${chargingSession.price}`,
+    subject: `Wirelane Charging Session: ${chargingSession.kWh} kWh * €${demoTariff.pricePerKwh} – wrln.de/${chargingSession.id.substring(0, 8)}`,
   });
 
   res.json({

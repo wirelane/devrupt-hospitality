@@ -4,6 +4,6 @@ html
     title Index
     body
       ul
-        each chargingPoint, evseId in listing
+        each chargingPoint in listing
           li
-            a(href='/evseId/' + evseId)= chargingPoint.hotel.title
+            a(href='/evseId/' + chargingPoint.evseid)= chargingPoint.hotel.title + " (" + chargingPoint.evseid + ")"

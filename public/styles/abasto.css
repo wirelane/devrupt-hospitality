@@ -1,0 +1,38 @@
+@font-face {
+  font-family: BaiJamjuree;
+  src: url(../fonts/BaiJamjuree-Light.ttf);
+}
+
+body {
+  font-family: BaiJamjuree;
+  color: #B5AB92;
+  background-color: rgb(11, 11, 11);
+}
+
+.navbar {
+  background-color: rgb(11, 11, 11) !important;
+  color: #A71731;
+}
+
+span.title {
+  display: none;
+}
+
+a {
+  color: #A71731;
+}
+
+a:hover {
+  color: #B5AB92;
+}
+
+.btn-primary, .btn-primary:hover, .btn-secondary, .btn-secondary:hover {
+  background-color: #A71731;
+  border-color: #A71731;
+  color: #B5AB92;
+}
+
+@keyframes color_change {
+	from { color: #B5AB92; }
+	to { color: #A71731; }
+}
